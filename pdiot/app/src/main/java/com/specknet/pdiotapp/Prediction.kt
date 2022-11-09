@@ -20,7 +20,6 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.specknet.pdiotapp.ml.Model
 import com.specknet.pdiotapp.utils.Constants
 import com.specknet.pdiotapp.utils.RESpeckLiveData
-import kotlinx.android.synthetic.main.activity_prediction.*
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 
@@ -181,7 +180,7 @@ class Prediction : AppCompatActivity() {
     }
     // 模型输入
     fun modelinput(x: Float, y: Float, z: Float, x1: Float, y1: Float, z1: Float) {
-        if (counter < 300) {
+        if (counter <= 294) {
             this.tfinput.set(counter, x)
             this.tfinput.set(counter + 1, y)
             this.tfinput.set(counter + 2, z)
@@ -189,13 +188,14 @@ class Prediction : AppCompatActivity() {
             this.tfinput.set(counter + 4, y1)
             this.tfinput.set(counter + 5, z1)
             counter += 6
+            Log.d("###########","Collect the data")
         }
 
-        else if (counter >= 300) {
+        else if (counter > 294) {
             // tocheck the concise model is open or not. If open,select the 4 activity model.
             // otherwise using the original model.
 
-
+            Log.d("###########","Prediction made")
             val pdiotModel = Model.newInstance(this)
             val inputFeatures = TensorBuffer.createFixedSize(intArrayOf(1, 50, 6), DataType.FLOAT32)
             inputFeatures.loadArray(tfinput)
@@ -208,10 +208,10 @@ class Prediction : AppCompatActivity() {
             for (i in 0..13){
                 indexToProbability[i] = outputFeatures.floatArray[i]
             }
-
+            pdiotModel.close()
+            Log.d("###########","Map is success")
             // sort the map in descending 递减
-            val sortedMap = indexToProbability.toSortedMap(compareByDescending { it })
-
+            val sortedMap = indexToProbability.toList().sortedByDescending { (_, value) -> value}.toMap()
 
 //            var floatarray = FloatArray(14)
 //            var index = 0
@@ -224,7 +224,10 @@ class Prediction : AppCompatActivity() {
 //                    index = i
 //                }
 //            }
-
+            for (entry in sortedMap.entries.iterator()) {
+                Log.d("###########","Prediction activity: "+INDEX_TO_NAME_MAPPING[entry.key])
+                Log.d("###########","Probability: "+entry.value*100+"%")
+            }
 
             output1 = findViewById(R.id.output1)
             output2 = findViewById(R.id.output2)
@@ -239,7 +242,7 @@ class Prediction : AppCompatActivity() {
             finalactivity = findViewById(R.id.finalActivity)
 
             var count = 1
-            for (entry in indexToProbability.entries.iterator()) {
+            for (entry in sortedMap.entries.iterator()) {
                 if (count == 5){
                     break
                 }
@@ -268,17 +271,6 @@ class Prediction : AppCompatActivity() {
                 }
                 count +=1
             }
-
-//            val stringPrediction = INDEX_TO_NAME_MAPPING[index]
-////            Log.d("###########",""+stringPrediction)
-//
-//            if (stringPrediction != null) {
-//                setText(output1,stringPrediction)
-//                setText(finalactivity,stringPrediction)
-//            }
-//            setTextInt(probability1,maxValue)
-
-            pdiotModel.close()
             counter = 150
         }
     }
