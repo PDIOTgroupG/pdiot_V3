@@ -9,6 +9,8 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
 import android.util.Log
+import android.widget.Button
+import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -48,6 +50,7 @@ class Prediction : AppCompatActivity() {
     lateinit var probability4:TextView
     lateinit var finalactivity:TextView
 
+    lateinit var conciseMode: Switch
 
     // todo 检查一下label是不是对的，如果label和模型输出的label对不上，会导致准确率高，但是输出不对
     val INDEX_TO_NAME_MAPPING = mapOf(
@@ -65,6 +68,13 @@ class Prediction : AppCompatActivity() {
         11 to "Running",
         12 to "Climbing stairs",
         13 to "Descending stairs"
+    )
+
+    val four_activity_map = mapOf(
+        0 to "Sitting/Standing",
+        1 to "Walking",
+        2 to "Running",
+        3 to "Lying Down"
     )
 
     var tfinput = FloatArray(50 * 6) { 0.toFloat() }
@@ -117,7 +127,6 @@ class Prediction : AppCompatActivity() {
         respeckChart = findViewById(R.id.respeck_chart2)
 
         // Respeck
-
         time = 0f
         val entries_res_accel_x = ArrayList<Entry>()
         val entries_res_accel_y = ArrayList<Entry>()
@@ -194,7 +203,13 @@ class Prediction : AppCompatActivity() {
         else if (counter > 294) {
             // tocheck the concise model is open or not. If open,select the 4 activity model.
             // otherwise using the original model.
-
+            conciseMode = findViewById(R.id.switch_concisemodel)
+            if (conciseMode.isChecked){
+                // the concise model is open, only output the four activity.
+                // change into four activity model todo
+                val pdiotFourActivityModel = Model.newInstance(this)
+                
+            }
             Log.d("###########","Prediction made")
             val pdiotModel = Model.newInstance(this)
             val inputFeatures = TensorBuffer.createFixedSize(intArrayOf(1, 50, 6), DataType.FLOAT32)
@@ -213,17 +228,6 @@ class Prediction : AppCompatActivity() {
             // sort the map in descending 递减
             val sortedMap = indexToProbability.toList().sortedByDescending { (_, value) -> value}.toMap()
 
-//            var floatarray = FloatArray(14)
-//            var index = 0
-//            var maxValue :Float
-//            maxValue = 0F
-//            for (i in 0..13) {
-//                floatarray[i] = outputFeatures.floatArray[i]
-//                if(floatarray[i]>maxValue){
-//                    maxValue = floatarray[i]
-//                    index = i
-//                }
-//            }
             for (entry in sortedMap.entries.iterator()) {
                 Log.d("###########","Prediction activity: "+INDEX_TO_NAME_MAPPING[entry.key])
                 Log.d("###########","Probability: "+entry.value*100+"%")
