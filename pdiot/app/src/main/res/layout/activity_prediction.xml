@@ -269,7 +269,7 @@
         app:layout_constraintTop_toTopOf="@+id/space4"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@android:drawable/ic_menu_myplaces" />
-    
+
     <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/multiple_actions"
         android:layout_width="wrap_content"

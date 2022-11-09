@@ -41,8 +41,12 @@ class Prediction : AppCompatActivity() {
 
     lateinit var output1:TextView
     lateinit var output2:TextView
+    lateinit var output3:TextView
+    lateinit var output4:TextView
     lateinit var probability1:TextView
     lateinit var probability2:TextView
+    lateinit var probability3:TextView
+    lateinit var probability4:TextView
     lateinit var finalactivity:TextView
 
 
@@ -111,11 +115,6 @@ class Prediction : AppCompatActivity() {
 
     }
     fun setupCharts() {
-        output1 = findViewById(R.id.output1)
-        output2 = findViewById(R.id.output2)
-        probability1 = findViewById(R.id.prob1)
-        probability2 = findViewById(R.id.prob2)
-
         respeckChart = findViewById(R.id.respeck_chart2)
 
         // Respeck
@@ -228,17 +227,56 @@ class Prediction : AppCompatActivity() {
 
 
             output1 = findViewById(R.id.output1)
+            output2 = findViewById(R.id.output2)
+            output3 = findViewById(R.id.output3)
+            output4 = findViewById(R.id.output4)
+
             probability1 = findViewById(R.id.prob1)
+            probability2 = findViewById(R.id.prob2)
+            probability3 = findViewById(R.id.prob3)
+            probability4 = findViewById(R.id.prob4)
+
             finalactivity = findViewById(R.id.finalActivity)
 
-            val stringPrediction1 = INDEX_TO_NAME_MAPPING[index]
-//            Log.d("###########",""+stringPrediction1)
-
-            if (stringPrediction1 != null) {
-                setText(output1,stringPrediction1)
-                setText(finalactivity,stringPrediction1)
+            var count = 1
+            for (entry in indexToProbability.entries.iterator()) {
+                if (count == 5){
+                    break
+                }
+                val stringPrediction = INDEX_TO_NAME_MAPPING[entry.key]
+                val probabilityPrediction = entry.value
+                if (stringPrediction != null && probabilityPrediction != null) {
+                    when (count) {
+                        1 -> {
+                            setText(output1,stringPrediction)
+                            setText(finalactivity,stringPrediction)
+                            setTextInt(probability1,probabilityPrediction)
+                        }
+                        2 -> {
+                            setText(output2,stringPrediction)
+                            setTextInt(probability2,probabilityPrediction)
+                        }
+                        3 -> {
+                            setText(output3,stringPrediction)
+                            setTextInt(probability3,probabilityPrediction)
+                        }
+                        4 -> {
+                            setText(output4,stringPrediction)
+                            setTextInt(probability4,probabilityPrediction)
+                        }
+                    }
+                }
+                count +=1
             }
-            setTextInt(probability1,maxValue)
+
+//            val stringPrediction = INDEX_TO_NAME_MAPPING[index]
+////            Log.d("###########",""+stringPrediction)
+//
+//            if (stringPrediction != null) {
+//                setText(output1,stringPrediction)
+//                setText(finalactivity,stringPrediction)
+//            }
+//            setTextInt(probability1,maxValue)
 
             pdiotModel.close()
             counter = 150
