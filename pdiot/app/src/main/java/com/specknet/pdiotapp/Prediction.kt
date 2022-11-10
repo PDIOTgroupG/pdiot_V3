@@ -19,9 +19,11 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.specknet.pdiotapp.ml.Model
+import com.specknet.pdiotapp.ml.Cnn14
+import com.specknet.pdiotapp.ml.Cnn4
 import com.specknet.pdiotapp.utils.Constants
 import com.specknet.pdiotapp.utils.RESpeckLiveData
+import org.apache.commons.lang3.ObjectUtils.Null
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 
@@ -204,76 +206,137 @@ class Prediction : AppCompatActivity() {
             // tocheck the concise model is open or not. If open,select the 4 activity model.
             // otherwise using the original model.
             conciseMode = findViewById(R.id.switch_concisemodel)
+            Log.d("###########","Make Prediction")
+
+
             if (conciseMode.isChecked){
-                // the concise model is open, only output the four activity.
-                // change into four activity model todo
-                val pdiotFourActivityModel = Model.newInstance(this)
-                
-            }
-            Log.d("###########","Prediction made")
-            val pdiotModel = Model.newInstance(this)
-            val inputFeatures = TensorBuffer.createFixedSize(intArrayOf(1, 50, 6), DataType.FLOAT32)
-            inputFeatures.loadArray(tfinput)
+                val pdiotModel4 = Cnn4.newInstance(this)
+                val inputFeatures = TensorBuffer.createFixedSize(intArrayOf(1, 50, 6), DataType.FLOAT32)
+                inputFeatures.loadArray(tfinput)
 
-            val outputs = pdiotModel.process(inputFeatures)
-            val outputFeatures = outputs.outputFeature0AsTensorBuffer
+                val outputs = pdiotModel4.process(inputFeatures)
+                val outputFeatures = outputs.outputFeature0AsTensorBuffer
 
-            val indexToProbability = hashMapOf<Int, Float>()
+                val indexToProbability = hashMapOf<Int, Float>()
 
-            for (i in 0..13){
-                indexToProbability[i] = outputFeatures.floatArray[i]
-            }
-            pdiotModel.close()
-            Log.d("###########","Map is success")
-            // sort the map in descending 递减
-            val sortedMap = indexToProbability.toList().sortedByDescending { (_, value) -> value}.toMap()
-
-            for (entry in sortedMap.entries.iterator()) {
-                Log.d("###########","Prediction activity: "+INDEX_TO_NAME_MAPPING[entry.key])
-                Log.d("###########","Probability: "+entry.value*100+"%")
-            }
-
-            output1 = findViewById(R.id.output1)
-            output2 = findViewById(R.id.output2)
-            output3 = findViewById(R.id.output3)
-            output4 = findViewById(R.id.output4)
-
-            probability1 = findViewById(R.id.prob1)
-            probability2 = findViewById(R.id.prob2)
-            probability3 = findViewById(R.id.prob3)
-            probability4 = findViewById(R.id.prob4)
-
-            finalactivity = findViewById(R.id.finalActivity)
-
-            var count = 1
-            for (entry in sortedMap.entries.iterator()) {
-                if (count == 5){
-                    break
+                for (i in 0..13) {
+                    indexToProbability[i] = outputFeatures.floatArray[i]
                 }
-                val stringPrediction = INDEX_TO_NAME_MAPPING[entry.key]
-                val probabilityPrediction = entry.value
-                if (stringPrediction != null && probabilityPrediction != null) {
-                    when (count) {
-                        1 -> {
-                            setText(output1,stringPrediction)
-                            setText(finalactivity,stringPrediction)
-                            setTextInt(probability1,probabilityPrediction)
-                        }
-                        2 -> {
-                            setText(output2,stringPrediction)
-                            setTextInt(probability2,probabilityPrediction)
-                        }
-                        3 -> {
-                            setText(output3,stringPrediction)
-                            setTextInt(probability3,probabilityPrediction)
-                        }
-                        4 -> {
-                            setText(output4,stringPrediction)
-                            setTextInt(probability4,probabilityPrediction)
+                pdiotModel4.close()
+                Log.d("###########", "Map is success")
+                // sort the map in descending 递减
+                val sortedMap =
+                    indexToProbability.toList().sortedByDescending { (_, value) -> value }.toMap()
+
+                output1 = findViewById(R.id.output1)
+                output2 = findViewById(R.id.output2)
+                output3 = findViewById(R.id.output3)
+                output4 = findViewById(R.id.output4)
+
+                probability1 = findViewById(R.id.prob1)
+                probability2 = findViewById(R.id.prob2)
+                probability3 = findViewById(R.id.prob3)
+                probability4 = findViewById(R.id.prob4)
+
+                finalactivity = findViewById(R.id.finalActivity)
+
+                var count = 1
+                for (entry in sortedMap.entries.iterator()) {
+                    if (count == 5) {
+                        break
+                    }
+
+                    val stringPrediction = four_activity_map[entry.key]
+                    val probabilityPrediction = entry.value
+
+                    if (stringPrediction != null && probabilityPrediction != null) {
+                        when (count) {
+                            1 -> {
+                                setText(output1, stringPrediction)
+                                setText(finalactivity, stringPrediction)
+                                setTextInt(probability1, probabilityPrediction)
+                            }
+                            2 -> {
+                                setText(output2, stringPrediction)
+                                setTextInt(probability2, probabilityPrediction)
+                            }
+                            3 -> {
+                                setText(output3, stringPrediction)
+                                setTextInt(probability3, probabilityPrediction)
+                            }
+                            4 -> {
+                                setText(output4, stringPrediction)
+                                setTextInt(probability4, probabilityPrediction)
+                            }
                         }
                     }
+                    count += 1
                 }
-                count +=1
+            }
+
+            else {
+                val pdiotModel = Cnn14.newInstance(this)
+                val inputFeatures = TensorBuffer.createFixedSize(intArrayOf(1, 50, 6), DataType.FLOAT32)
+                inputFeatures.loadArray(tfinput)
+
+                val outputs = pdiotModel.process(inputFeatures)
+                val outputFeatures = outputs.outputFeature0AsTensorBuffer
+
+                val indexToProbability = hashMapOf<Int, Float>()
+
+                for (i in 0..13) {
+                    indexToProbability[i] = outputFeatures.floatArray[i]
+                }
+                pdiotModel.close()
+                Log.d("###########", "Map is success")
+                // sort the map in descending 递减
+                val sortedMap =
+                    indexToProbability.toList().sortedByDescending { (_, value) -> value }.toMap()
+
+                output1 = findViewById(R.id.output1)
+                output2 = findViewById(R.id.output2)
+                output3 = findViewById(R.id.output3)
+                output4 = findViewById(R.id.output4)
+
+                probability1 = findViewById(R.id.prob1)
+                probability2 = findViewById(R.id.prob2)
+                probability3 = findViewById(R.id.prob3)
+                probability4 = findViewById(R.id.prob4)
+
+                finalactivity = findViewById(R.id.finalActivity)
+
+                var count = 1
+                for (entry in sortedMap.entries.iterator()) {
+                    if (count == 5) {
+                        break
+                    }
+
+                    val stringPrediction = INDEX_TO_NAME_MAPPING[entry.key]
+                    val probabilityPrediction = entry.value
+
+                    if (stringPrediction != null && probabilityPrediction != null) {
+                        when (count) {
+                            1 -> {
+                                setText(output1, stringPrediction)
+                                setText(finalactivity, stringPrediction)
+                                setTextInt(probability1, probabilityPrediction)
+                            }
+                            2 -> {
+                                setText(output2, stringPrediction)
+                                setTextInt(probability2, probabilityPrediction)
+                            }
+                            3 -> {
+                                setText(output3, stringPrediction)
+                                setTextInt(probability3, probabilityPrediction)
+                            }
+                            4 -> {
+                                setText(output4, stringPrediction)
+                                setTextInt(probability4, probabilityPrediction)
+                            }
+                        }
+                    }
+                    count += 1
+                }
             }
             counter = 150
         }
