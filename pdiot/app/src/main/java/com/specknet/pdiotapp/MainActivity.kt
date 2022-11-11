@@ -81,6 +81,8 @@ class MainActivity : AppCompatActivity() {
         // register a broadcast receiver for respeck status
         filter.addAction(Constants.ACTION_RESPECK_CONNECTED)
         filter.addAction(Constants.ACTION_RESPECK_DISCONNECTED)
+        val intent = Intent(this, LoginActivity2::class.java)
+        startActivity(intent)
 
     }
 
