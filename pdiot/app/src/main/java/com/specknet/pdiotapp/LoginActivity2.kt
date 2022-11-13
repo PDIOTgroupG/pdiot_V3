@@ -15,12 +15,16 @@ class LoginActivity2 : AppCompatActivity() {
     lateinit var loginBtn: ImageView
     lateinit var registerBtn: TextView
     lateinit var remberme: CheckBox
+    private lateinit var mySQLite:MySQLite
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login2)
         setupViews()
         setupButtons()
+        mySQLite = MySQLite(this)
     }
+
     private fun setupViews() {
         username = findViewById(R.id.fragment_login_nameEditText)
         password = findViewById(R.id.fragment_login_passWordfEditText)
@@ -43,14 +47,13 @@ class LoginActivity2 : AppCompatActivity() {
 //        remberme.setOnClickListener{
 //
 //        }
-
     }
 
     private fun loginUser() {
-        val userID: String = username.text.toString()
-        val pwd: String = password.text.toString()
+        val userID: String = username.text.toString().trim()
+        val pwd: String = password.text.toString().trim()
         if (userID.isEmpty()){
-            Toast.makeText(this, "Username cannot be empty", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please input your Email/studentID", Toast.LENGTH_SHORT).show()
             username.setError("Username cannot be empty")
             username.requestFocus()
         }
@@ -59,16 +62,24 @@ class LoginActivity2 : AppCompatActivity() {
             password.setError("Password cannot be empty")
             password.requestFocus()
         }
-        else if (pwd.length<8){
-            Toast.makeText(this, "Please set a more complex password", Toast.LENGTH_SHORT).show()
-            password.setError("Password length should be greater than 8")
+        else if (mySQLite.checkNoSuchAccount(userID)){
+            Toast.makeText(this, "Please register first!", Toast.LENGTH_SHORT).show()
+            username.setError("There is no such account existed!")
+            username.requestFocus()
+        }
+        else if(mySQLite.checkPwd(userID,pwd) == 0){
+            Toast.makeText(this, "Please try again", Toast.LENGTH_SHORT).show()
+            password.setError("The input password is not correct!")
             password.requestFocus()
-        }else{
+        }
+        else if(mySQLite.checkPwd(userID,pwd) == 1){
             Toast.makeText(this, "Welcome! "+userID, Toast.LENGTH_SHORT).show()
             val Intent = Intent(this, MainActivity::class.java)
             startActivity(Intent)
+        }else{
+            Toast.makeText(this, "Please register first!", Toast.LENGTH_SHORT).show()
+            username.setError("There is no such account existed!")
+            username.requestFocus()
         }
-
     }
-
 }

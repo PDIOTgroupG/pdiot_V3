@@ -20,53 +20,55 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="16dp"
+        android:layout_marginTop="40dp"
         android:gravity="center_horizontal"
         android:text="Register"
         android:textColor="@color/teal_700"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/fragment_register_layout_idEditText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.366" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_register_layout_idEditText"
-        android:layout_width="322dp"
-        android:layout_height="44dp"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
         android:layout_marginHorizontal="30dp"
-        android:hint="Username"
-        app:endIconMode="clear_text"
+        android:layout_marginTop="20dp"
+        android:hint="Email/StudentID"
 
+        app:endIconMode="clear_text"
         app:errorEnabled="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.397">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_register_layout_nameEditText">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/fragment_register_idEditText"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:textSize="18sp" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_register_layout_passwordEditText"
-        android:layout_width="319dp"
-        android:layout_height="57dp"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
 
-        android:hint="Email"
+        android:hint="Password"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_register_layout_idEditText">
@@ -80,15 +82,15 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fragment_register_layout_confirmpasswordEditText"
-        android:layout_width="319dp"
+        android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="12dp"
-        android:hint="Password"
+        android:layout_marginTop="20dp"
+        android:hint="Confirm Password"
 
         app:endIconMode="clear_text"
         app:errorEnabled="true"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_register_layout_passwordEditText">
@@ -107,25 +109,27 @@
 
         android:layout_marginHorizontal="20dp"
 
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="28dp"
         android:gravity="center"
         android:padding="10dp"
         android:text="Sign up"
-        android:textSize="18sp"
+        android:textColor="@color/deep_purple"
+        android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_register_layout_confirmpasswordEditText" />
 
     <TextView
         android:id="@+id/fragment_register_text_LoginMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_width="185dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="20dp"
         android:text="Already have account？"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.29"
+        app:layout_constraintHorizontal_bias="0.3"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
@@ -133,15 +137,37 @@
         android:id="@+id/fragment_register_text_Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-
-        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginBottom="20dp"
 
         android:text="Login Here"
         android:textColor="@color/teal_700"
         android:textSize="20sp"
         android:textStyle="bold"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/fragment_register_text_LoginMessage" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/fragment_register_layout_nameEditText"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="24dp"
+        android:hint="name"
+
+        app:endIconMode="clear_text"
+        app:errorEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fragment_register_nameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
