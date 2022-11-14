@@ -60,7 +60,7 @@ class RegisterActivity : AppCompatActivity() {
         user.setUserID(userID)
         user.setPassword(pwd)
 
-        if (mySQLite.checkNoSuchAccount(UserName)){
+        if (mySQLite.checkNoSuchAccount(userID)){
             var rowID = mySQLite.insertRegister(user)
             if (!rowID.equals(-1)){
                 Toast.makeText(this, "User Registered successfully! You can now Login in your account", Toast.LENGTH_SHORT).show()

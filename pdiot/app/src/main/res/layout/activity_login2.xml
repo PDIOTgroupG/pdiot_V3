@@ -11,7 +11,7 @@
             android:layout_width="170dp"
             android:layout_height="156dp"
             android:layout_gravity="center"
-            android:src="@drawable/firebase_image"
+            android:src="@drawable/bg"
             app:layout_constraintBottom_toTopOf="@+id/fragment_login_text_welcome"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"

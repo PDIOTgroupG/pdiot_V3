@@ -8,10 +8,12 @@ import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
+import android.text.format.DateUtils
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import com.google.android.material.snackbar.Snackbar
@@ -32,6 +34,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var pairingButton: FloatingActionButton
     lateinit var recordButton: Button
     lateinit var predictButton:Button
+    lateinit var logoutButton:FloatingActionButton
+    lateinit var tvUsername:TextView
 
     // permissions
     lateinit var permissionAlertDialog: AlertDialog.Builder
@@ -68,6 +72,8 @@ class MainActivity : AppCompatActivity() {
         pairingButton = findViewById(R.id.connectSensor)
         recordButton = findViewById(R.id.record_button)
         predictButton = findViewById(R.id.prediction_button)
+        logoutButton = findViewById(R.id.logout)
+        tvUsername = findViewById(R.id.tvUsername)
 
 
         permissionAlertDialog = AlertDialog.Builder(this)
@@ -81,8 +87,16 @@ class MainActivity : AppCompatActivity() {
         // register a broadcast receiver for respeck status
         filter.addAction(Constants.ACTION_RESPECK_CONNECTED)
         filter.addAction(Constants.ACTION_RESPECK_DISCONNECTED)
-        val intent = Intent(this, LoginActivity2::class.java)
-        startActivity(intent)
+
+//        val intent = Intent(this, LoginActivity2::class.java)
+//        startActivity(intent)
+
+        val intent_from_login:Intent = getIntent()
+        val account_name: String? = intent_from_login.getStringExtra("account_name")
+        tvUsername.setText(account_name)
+
+
+//        deleteDatabase("mySQLite.db")
 
     }
 
@@ -103,6 +117,10 @@ class MainActivity : AppCompatActivity() {
         }
         predictButton.setOnClickListener {
             val intent = Intent(this,Prediction::class.java)
+            startActivity(intent)
+        }
+        logoutButton.setOnClickListener{
+            val intent = Intent(this,LoginActivity2::class.java)
             startActivity(intent)
         }
 
