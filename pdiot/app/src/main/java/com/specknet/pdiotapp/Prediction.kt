@@ -78,11 +78,6 @@ class Prediction : AppCompatActivity() {
 //        12 to "Climbing stairs",
 //        13 to "Descending stairs"
 //    )
-    val fourteenActivity = listOf("Sitting","Walking at normal speed","Lying down on back","Desk work","Sitting bent forward",
-                                  "Sitting bent backward","Lying down right","Lying down left","Lying down on stomach","Movement",
-                                  "Standing","Running","Climbing stairs","Descending stairs")
-    val fourActivity = listOf("Sitting/Standing","Walking","Running","Lying Down")
-    val thingyActivity = listOf("Sitting","Standing")
 
 //    val four_activity_map = mapOf(
 //        0 to "Sitting/Standing",
@@ -90,6 +85,13 @@ class Prediction : AppCompatActivity() {
 //        2 to "Running",
 //        3 to "Lying Down"
 //    )
+    val fourteenActivity = listOf("Sitting","Walking at normal speed","Lying down on back","Desk work","Sitting bent forward",
+                                  "Sitting bent backward","Lying down right","Lying down left","Lying down on stomach","Movement",
+                                  "Standing","Running","Climbing stairs","Descending stairs")
+    val fourActivity = listOf("Sitting/Standing","Walking","Running","Lying Down")
+    val thingyActivity = listOf("Sitting","Standing")
+
+
 
     var respeckTfInput = FloatArray(50 * 6) { 0.toFloat() }
     var thingyIfInput = FloatArray(50 * 6) { 0.toFloat() }
@@ -213,6 +215,7 @@ class Prediction : AppCompatActivity() {
             conciseMode = findViewById(R.id.switch_concisemodel)
             var activityList = listOf<String>()
             val probabilityList = get_respeck_model_outputs(conciseMode.isChecked,respeckTfInput)
+            val thingyProbability = get_thingy_model_outputs(conciseMode.isChecked,thingyIfInput)
             val activityToProbability = hashMapOf<String, Float>()
             if (conciseMode.isChecked){
                 activityList = fourActivity
@@ -223,10 +226,20 @@ class Prediction : AppCompatActivity() {
 
             for (i in activityList.indices){
                 val activity = activityList[i]
-                activityToProbability[activity] = probabilityList.get(i)
+                if(activity == "Sitting"){
+                    activityToProbability[activity] = thingyProbability[0]
+                }
+                else if (activity == "Standing"){
+                    activityToProbability[activity] = thingyProbability[1]
+                }
+                else{
+                    activityToProbability[activity] = probabilityList[i]
+                }
             }
 
             val sortedMap = activityToProbability.toList().sortedByDescending { (_, value) -> value }.toMap()
+
+
             output1 = findViewById(R.id.output1)
             output2 = findViewById(R.id.output2)
             output3 = findViewById(R.id.output3)
@@ -249,32 +262,32 @@ class Prediction : AppCompatActivity() {
                 val stringPrediction = entry.key
                 val probabilityPrediction = entry.value
 
-                if (stringPrediction != null && probabilityPrediction != null) {
-                    when (count) {
-                        1 -> {
-                            setText(output1, stringPrediction)
-                            setText(finalactivity, stringPrediction)
-                            setTextInt(probability1, probabilityPrediction)
-                        }
-                        2 -> {
-                            setText(output2, stringPrediction)
-                            setTextInt(probability2, probabilityPrediction)
-                        }
-                        3 -> {
-                            setText(output3, stringPrediction)
-                            setTextInt(probability3, probabilityPrediction)
-                        }
-                        4 -> {
-                            setText(output4, stringPrediction)
-                            setTextInt(probability4, probabilityPrediction)
-                        }
+                when (count) {
+                    1 -> {
+                        setText(output1, stringPrediction)
+                        setText(finalactivity, stringPrediction)
+                        setTextInt(probability1, probabilityPrediction)
+                    }
+                    2 -> {
+                        setText(output2, stringPrediction)
+                        setTextInt(probability2, probabilityPrediction)
+                    }
+                    3 -> {
+                        setText(output3, stringPrediction)
+                        setTextInt(probability3, probabilityPrediction)
+                    }
+                    4 -> {
+                        setText(output4, stringPrediction)
+                        setTextInt(probability4, probabilityPrediction)
                     }
                 }
+
                 count += 1
             }
             counter = 150
         }
     }
+
 
     fun setupCharts() {
         respeckChart = findViewById(R.id.respeck_chart2)
@@ -375,6 +388,19 @@ class Prediction : AppCompatActivity() {
     }
 
 
+    private fun get_thingy_model_outputs(concise: Boolean, thingyIfInput: FloatArray): FloatArray {
+        if(concise){
+            return FloatArray(1*6){0.toFloat()}
+        }
+        else{
+            val thingyModel = Thingy.newInstance(this)
+            val inputFeatures = TensorBuffer.createFixedSize(intArrayOf(1, 50, 6), DataType.FLOAT32)
+            inputFeatures.loadArray(thingyIfInput)
+            val outputs = thingyModel.process(inputFeatures)
+            thingyModel.close()
+            return outputs.outputFeature0AsTensorBuffer.floatArray
+        }
+    }
     private fun get_respeck_model_outputs(concise:Boolean,respeckTfInput:FloatArray): FloatArray {
         if(concise){
             val pdiotModel = Cnn4.newInstance(this)
