@@ -257,10 +257,12 @@ class Prediction : AppCompatActivity() {
             val thingyProbability = get_thingy_model_outputs(conciseMode.isChecked,thingyIfInput)
             val activityToProbability = hashMapOf<String, Float>()
             if (conciseMode.isChecked){
-                activityList = fourActivity
+                // activityList = fourActivity
+                activityList = fourteenActivity
             }
             else{
-                activityList = fourteenActivity
+                // activityList = fourteenActivity
+                activityList = fourActivity
             }
 
             for (i in activityList.indices){
