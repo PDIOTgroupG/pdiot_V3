@@ -27,6 +27,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
+import android.content.SharedPreferences
+
 class MainActivity : AppCompatActivity() {
 
     // buttons and textviews
@@ -117,6 +119,8 @@ class MainActivity : AppCompatActivity() {
         }
         predictButton.setOnClickListener {
             val intent = Intent(this,Prediction::class.java)
+            val account_name:String = tvUsername.text.toString().trim()
+            intent.putExtra("account_name",account_name)
             startActivity(intent)
         }
         logoutButton.setOnClickListener{

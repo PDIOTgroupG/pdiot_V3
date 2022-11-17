@@ -9,6 +9,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
+import com.specknet.pdiotapp.bean.HistoryData;
 import com.specknet.pdiotapp.bean.User;
 
 import java.util.Objects;
@@ -19,6 +20,8 @@ public class MySQLite extends SQLiteOpenHelper {
     private static final String TABLE_NAME_HISTORY_DATA = "history";
 
     private static final String CREATE_USER_TABLE_SQL = "create table "+TABLE_NAME_USER+"(id integer primary key autoincrement,name text,account text,password text);";
+    private static final String CREATE_HISTORY_TABLE_SQL = "create table "+TABLE_NAME_HISTORY_DATA+"(id integer primary key autoincrement,name text,activity text,date text);";
+
 
     public MySQLite(Context context){
         super(context, DB_NAME, null, 1);
@@ -28,6 +31,7 @@ public class MySQLite extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_USER_TABLE_SQL);
+        db.execSQL(CREATE_HISTORY_TABLE_SQL);
     }
 
     @Override
@@ -62,9 +66,9 @@ public class MySQLite extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("select * from user where account=?",new String[]{account});
         if(c.moveToFirst()) {
             String password = c.getString(c.getColumnIndex("password"));
+            db.close();
             return password;
         }
-
         return null;
     }
 
@@ -73,11 +77,42 @@ public class MySQLite extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("select * from user where account=?",new String[]{account});
         if(c.moveToFirst()) {
             String name = c.getString(c.getColumnIndex("name"));
+            db.close();
             return name;
         }
         return "GUEST";
     }
 
 
+    public long insertHistory(HistoryData historyData){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("name",historyData.getName());
+        values.put("activity",historyData.getActivity());
+        values.put("date",historyData.getDate());
+        return db.insert(TABLE_NAME_HISTORY_DATA,null,values);
+    }
+
+    public int checkTotalRowInGivenDate(String date){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery("select * from history where date=?",new String[]{date});
+        int count = 0;
+        while (c.moveToNext()){
+            count+=1;
+        }
+        db.close();
+        return count;
+    }
+
+    public int checkActivityRowInGivenDate(String date,String activity){
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery("select * from history where date=? and activity=?",new String[]{date,activity});
+        int count = 0;
+        while (c.moveToNext()){
+            count+=1;
+        }
+        db.close();
+        return count;
+    }
 
 }

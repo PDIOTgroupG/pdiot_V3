@@ -101,6 +101,7 @@ class LoginActivity2 : AppCompatActivity() {
             val account_name:String = mySQLite.NameOfAccount(userID)
             Toast.makeText(this, "Welcome! "+account_name, Toast.LENGTH_SHORT).show()
             Intent.putExtra("account_name",account_name)
+
             startActivity(Intent)
             this.finish()
         }else{

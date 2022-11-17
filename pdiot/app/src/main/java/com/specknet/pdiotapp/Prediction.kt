@@ -14,11 +14,13 @@ import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.getbase.floatingactionbutton.FloatingActionButton
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import com.specknet.pdiotapp.bean.HistoryData
 import com.specknet.pdiotapp.ml.Cnn14
 import com.specknet.pdiotapp.ml.Cnn4
 import com.specknet.pdiotapp.ml.Thingy
@@ -62,6 +64,15 @@ class Prediction : AppCompatActivity() {
 
     lateinit var conciseMode: Switch
 
+    lateinit var user_name:String
+    lateinit var date:String
+    lateinit var fbtHistory:FloatingActionButton
+
+    private lateinit var mySQLite:MySQLite
+
+
+
+
 //    val INDEX_TO_NAME_MAPPING = mapOf(
 //        0 to "Sitting",
 //        1 to "Walking at normal speed",
@@ -88,6 +99,7 @@ class Prediction : AppCompatActivity() {
     val fourteenActivity = listOf("Sitting","Walking at normal speed","Lying down on back","Desk work","Sitting bent forward",
                                   "Sitting bent backward","Lying down right","Lying down left","Lying down on stomach","Movement",
                                   "Standing","Running","Climbing stairs","Descending stairs")
+
     val fourActivity = listOf("Sitting/Standing","Walking","Running","Lying Down")
     val thingyActivity = listOf("Sitting","Standing")
 
@@ -103,6 +115,18 @@ class Prediction : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_prediction)
         setupCharts()
+        setupClickListeners()
+        setUpButton()
+
+        mySQLite = MySQLite(this)
+
+        val intent_from_main:Intent = getIntent()
+        val account_name: String? = intent_from_main.getStringExtra("account_name")
+
+        if (account_name != null) {
+            user_name = account_name
+        }
+
 
         // set up the broadcast receiver
         respeckLiveUpdateReceiver = object : BroadcastReceiver() {
@@ -188,8 +212,23 @@ class Prediction : AppCompatActivity() {
         val handlerModel = Handler(looperModel)
         this.registerReceiver(modelLiveUpdateReceiver, filterTestRespeck, null, handlerModel)
 
-
     }
+
+    private fun setUpButton(){
+        fbtHistory = findViewById(R.id.history_check)
+    }
+
+
+
+    private fun setupClickListeners() {
+        fbtHistory.setOnClickListener {
+            val intent = Intent(this,ViewHistoryActivity::class.java)
+            intent.putExtra("name",user_name)
+            startActivity(intent)
+        }
+    }
+
+
 
     fun ModelInput(respeck_Input:FloatArray,thingy_Input:FloatArray){
         if (counter <= 294) {
@@ -267,6 +306,7 @@ class Prediction : AppCompatActivity() {
                         setText(output1, stringPrediction)
                         setText(finalactivity, stringPrediction)
                         setTextInt(probability1, probabilityPrediction)
+                        insertToHistoryDB()
                     }
                     2 -> {
                         setText(output2, stringPrediction)
@@ -286,6 +326,22 @@ class Prediction : AppCompatActivity() {
             }
             counter = 150
         }
+    }
+
+    private fun insertToHistoryDB() {
+
+        var hd:HistoryData = HistoryData()
+
+        date = hd.getDateTime()
+        val UserName:String = user_name
+        val Activity: String = finalactivity.text.toString().trim()
+        val date: String = date
+
+        hd.setDate(date)
+        hd.setName(UserName)
+        hd.setActivity(Activity)
+
+        mySQLite.insertHistory(hd)
     }
 
 
