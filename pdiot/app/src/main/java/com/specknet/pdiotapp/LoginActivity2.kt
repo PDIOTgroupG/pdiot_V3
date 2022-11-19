@@ -20,6 +20,7 @@ class LoginActivity2 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        deleteDatabase("mySQLite.db")
         setContentView(R.layout.activity_login2)
         setupViews()
         setupButtons()

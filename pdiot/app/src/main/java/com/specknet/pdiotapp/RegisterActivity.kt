@@ -55,7 +55,7 @@ class RegisterActivity : AppCompatActivity() {
         val userID: String = account.text.toString().trim()
         val pwd: String = password.text.toString().trim()
 
-        var user: User = User()
+        val user: User = User()
         user.setName(UserName)
         user.setUserID(userID)
         user.setPassword(pwd)

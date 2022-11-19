@@ -3,6 +3,7 @@ package com.specknet.pdiotapp;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
@@ -19,8 +20,8 @@ public class MySQLite extends SQLiteOpenHelper {
     private static final String TABLE_NAME_USER = "user";
     private static final String TABLE_NAME_HISTORY_DATA = "history";
 
-    private static final String CREATE_USER_TABLE_SQL = "create table "+TABLE_NAME_USER+"(id integer primary key autoincrement,name text,account text,password text);";
-    private static final String CREATE_HISTORY_TABLE_SQL = "create table "+TABLE_NAME_HISTORY_DATA+"(id integer primary key autoincrement,name text,activity text,date text);";
+    private static final String CREATE_USER_TABLE_SQL = "create table IF NOT EXISTS "+TABLE_NAME_USER+"(id integer primary key autoincrement,name text,account text,password text);";
+    private static final String CREATE_HISTORY_TABLE_SQL = "create table IF NOT EXISTS "+TABLE_NAME_HISTORY_DATA+"(id integer primary key autoincrement,name text,activity text,date text);";
 
 
     public MySQLite(Context context){
@@ -52,10 +53,9 @@ public class MySQLite extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("select * from user where account=?",new String[]{account});
         if(c.moveToFirst()) {
             String password = c.getString(c.getColumnIndex("password"));
-            db.close();
             return false;
         }
-        db.close();
+
         return true;
     }
 
@@ -66,7 +66,6 @@ public class MySQLite extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("select * from user where account=?",new String[]{account});
         if(c.moveToFirst()) {
             String password = c.getString(c.getColumnIndex("password"));
-            db.close();
             return password;
         }
         return null;
@@ -77,7 +76,6 @@ public class MySQLite extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("select * from user where account=?",new String[]{account});
         if(c.moveToFirst()) {
             String name = c.getString(c.getColumnIndex("name"));
-            db.close();
             return name;
         }
         return "GUEST";
@@ -93,26 +91,42 @@ public class MySQLite extends SQLiteOpenHelper {
         return db.insert(TABLE_NAME_HISTORY_DATA,null,values);
     }
 
-    public int checkTotalRowInGivenDate(String date){
+
+    public int test(String date,String name){
         SQLiteDatabase db = getWritableDatabase();
-        Cursor c = db.rawQuery("select * from history where date=?",new String[]{date});
-        int count = 0;
-        while (c.moveToNext()){
-            count+=1;
+        try {
+            Cursor c = db.rawQuery("select * from history where date=? and name=?",new String[]{date,name});
+            return c.getCount();
+        }catch (SQLException e){
+            return 0;
         }
-        db.close();
-        return count;
     }
 
-    public int checkActivityRowInGivenDate(String date,String activity){
+    public int test1(String date,String name,String activity){
         SQLiteDatabase db = getWritableDatabase();
-        Cursor c = db.rawQuery("select * from history where date=? and activity=?",new String[]{date,activity});
-        int count = 0;
-        while (c.moveToNext()){
-            count+=1;
+        try {
+            Cursor c = db.rawQuery("select * from history where date=? and name=? and activity=?",new String[]{date,name,activity});
+            return c.getCount();
+        }catch (SQLException e){
+            return 0;
         }
-        db.close();
-        return count;
     }
 
-}
+
+    public boolean existsDate(String date) {
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            Cursor c = db.rawQuery("select * from history where date=?",new String[]{date});
+            if (c.getCount()!=0){
+                return true;
+            }else{
+                return false;
+            }
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+
+
+    }

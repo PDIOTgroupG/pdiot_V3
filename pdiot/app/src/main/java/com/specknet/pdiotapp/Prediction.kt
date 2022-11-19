@@ -115,18 +115,17 @@ class Prediction : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_prediction)
         setupCharts()
-        setupClickListeners()
         setUpButton()
+        setupClickListeners()
+
+        val hd:HistoryData = HistoryData()
+        date = hd.getDateTime()
+
 
         mySQLite = MySQLite(this)
 
         val intent_from_main:Intent = getIntent()
-        val account_name: String? = intent_from_main.getStringExtra("account_name")
-
-        if (account_name != null) {
-            user_name = account_name
-        }
-
+        user_name= intent_from_main.getStringExtra("account_name").toString()
 
         // set up the broadcast receiver
         respeckLiveUpdateReceiver = object : BroadcastReceiver() {
@@ -219,11 +218,11 @@ class Prediction : AppCompatActivity() {
     }
 
 
-
     private fun setupClickListeners() {
         fbtHistory.setOnClickListener {
             val intent = Intent(this,ViewHistoryActivity::class.java)
             intent.putExtra("name",user_name)
+            intent.putExtra("date",date)
             startActivity(intent)
         }
     }
@@ -330,7 +329,7 @@ class Prediction : AppCompatActivity() {
 
     private fun insertToHistoryDB() {
 
-        var hd:HistoryData = HistoryData()
+        val hd:HistoryData = HistoryData()
 
         date = hd.getDateTime()
         val UserName:String = user_name
@@ -340,7 +339,6 @@ class Prediction : AppCompatActivity() {
         hd.setDate(date)
         hd.setName(UserName)
         hd.setActivity(Activity)
-
         mySQLite.insertHistory(hd)
     }
 

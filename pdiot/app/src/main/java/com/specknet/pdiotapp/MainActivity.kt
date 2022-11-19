@@ -90,15 +90,12 @@ class MainActivity : AppCompatActivity() {
         filter.addAction(Constants.ACTION_RESPECK_CONNECTED)
         filter.addAction(Constants.ACTION_RESPECK_DISCONNECTED)
 
-//        val intent = Intent(this, LoginActivity2::class.java)
-//        startActivity(intent)
-
         val intent_from_login:Intent = getIntent()
-        val account_name: String? = intent_from_login.getStringExtra("account_name")
+        val account_name: String = intent_from_login.getStringExtra("account_name").toString()
         tvUsername.setText(account_name)
 
 
-//        deleteDatabase("mySQLite.db")
+
 
     }
 

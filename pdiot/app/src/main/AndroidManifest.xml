@@ -26,7 +26,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".ViewHistoryActivity"
-            android:exported="false" >
+            android:exported="true" >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
