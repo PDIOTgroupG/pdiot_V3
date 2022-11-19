@@ -10,6 +10,7 @@ import android.os.HandlerThread
 import android.os.Looper
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -51,6 +52,11 @@ class Prediction : AppCompatActivity() {
 
     val filterTestRespeck = IntentFilter(Constants.ACTION_RESPECK_LIVE_BROADCAST)
     val filterTestThingy = IntentFilter(Constants.ACTION_THINGY_BROADCAST)
+
+    lateinit var image1:ImageView
+    lateinit var image2:ImageView
+    lateinit var image3:ImageView
+    lateinit var image4:ImageView
 
     lateinit var output1:TextView
     lateinit var output2:TextView
@@ -279,11 +285,17 @@ class Prediction : AppCompatActivity() {
 
             val sortedMap = activityToProbability.toList().sortedByDescending { (_, value) -> value }.toMap()
 
+            image1 = findViewById(R.id.imageView)
+            image2 = findViewById(R.id.imageView2)
+            image3 = findViewById(R.id.imageView3)
+            image4 = findViewById(R.id.imageView4)
 
             output1 = findViewById(R.id.output1)
             output2 = findViewById(R.id.output2)
             output3 = findViewById(R.id.output3)
             output4 = findViewById(R.id.output4)
+
+
 
             probability1 = findViewById(R.id.prob1)
             probability2 = findViewById(R.id.prob2)
@@ -304,20 +316,24 @@ class Prediction : AppCompatActivity() {
 
                 when (count) {
                     1 -> {
+                        setImage(image1,stringPrediction)
                         setText(output1, stringPrediction)
                         setText(finalactivity, stringPrediction)
                         setTextInt(probability1, probabilityPrediction)
                         insertToHistoryDB()
                     }
                     2 -> {
+                        setImage(image2,stringPrediction)
                         setText(output2, stringPrediction)
                         setTextInt(probability2, probabilityPrediction)
                     }
                     3 -> {
+                        setImage(image3,stringPrediction)
                         setText(output3, stringPrediction)
                         setTextInt(probability3, probabilityPrediction)
                     }
                     4 -> {
+                        setImage(image4,stringPrediction)
                         setText(output4, stringPrediction)
                         setTextInt(probability4, probabilityPrediction)
                     }
@@ -443,7 +459,56 @@ class Prediction : AppCompatActivity() {
         this.thingy_Input[5] = z1
     }
 
+    private fun setImage(image:ImageView,name:String){
+        if (name == "Sitting" || name == "Sitting bent forward" || name == "Sitting bent backward"){
+            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.sit))
+        }
+        else if (name == "Walking at normal speed"){
+            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.walk))
+        }
+        else if (name == "Lying down on back" || name == "Lying down right" || name == "Lying down on left" || name == "Lying down on stomach"){
+            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.lying))
+        }
+        else if (name == "Movement"){
+            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.walk))
+        }
+        else if (name == "Standing"){
+            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.standing))
+        }
+        else if (name == "Running"){
+            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.running))
+        }
+        else if (name == "Climbing stairs"){
+            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.upstair))
+        }
+        else if (name == "Descending stairs"){
+            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.downstair))
+        }
+    }
 
+//    val INDEX_TO_NAME_MAPPING = mapOf(
+//        0 to "Sitting",
+//        1 to "Walking at normal speed",
+//        2 to "Lying down on back",
+//        3 to "Desk work",
+//        4 to "Sitting bent forward",
+//        5 to "Sitting bent backward",
+//        6 to "Lying down right",
+//        7 to "Lying down left",
+//        8 to "Lying down on stomach",
+//        9 to "Movement",
+//        10 to "Standing",
+//        11 to "Running",
+//        12 to "Climbing stairs",
+//        13 to "Descending stairs"
+//    )
+
+    //    val four_activity_map = mapOf(
+//        0 to "Sitting/Standing",
+//        1 to "Walking",
+//        2 to "Running",
+//        3 to "Lying Down"
+//    )
     private fun get_thingy_model_outputs(concise: Boolean, thingyIfInput: FloatArray): FloatArray {
         if(concise){
             return FloatArray(1*6){0.toFloat()}
