@@ -9,10 +9,8 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
 import android.util.Log
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Switch
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.getbase.floatingactionbutton.FloatingActionButton
@@ -72,7 +70,9 @@ class Prediction : AppCompatActivity() {
 
     lateinit var user_name:String
     lateinit var date:String
+
     lateinit var fbtHistory:FloatingActionButton
+    lateinit var fbtStep:FloatingActionButton
 
     private lateinit var mySQLite:MySQLite
 
@@ -126,7 +126,6 @@ class Prediction : AppCompatActivity() {
 
         val hd:HistoryData = HistoryData()
         date = hd.getDateTime()
-
 
         mySQLite = MySQLite(this)
 
@@ -221,8 +220,8 @@ class Prediction : AppCompatActivity() {
 
     private fun setUpButton(){
         fbtHistory = findViewById(R.id.history_check)
+        fbtStep = findViewById(R.id.step_account_check)
     }
-
 
     private fun setupClickListeners() {
         fbtHistory.setOnClickListener {
@@ -230,6 +229,24 @@ class Prediction : AppCompatActivity() {
             intent.putExtra("name",user_name)
             intent.putExtra("date",date)
             startActivity(intent)
+        }
+        fbtStep.setOnClickListener{
+
+            val walkingStep = mySQLite.getWalkingCount(date, user_name)
+            val runningStep = mySQLite.getRunningCount(date,user_name)
+
+            val todayStep = (walkingStep+(runningStep*2)).toString()
+
+            AlertDialog.Builder(this).apply {
+                //构建一个对话框
+                setTitle("You have taken a total of")//title
+                setMessage(todayStep+" steps today")//content
+                setCancelable(false)
+                setPositiveButton("OK"){
+                        dialog, which ->
+                }
+                show()
+            }
         }
     }
 
@@ -348,7 +365,6 @@ class Prediction : AppCompatActivity() {
     private fun insertToHistoryDB() {
 
         val hd:HistoryData = HistoryData()
-
         date = hd.getDateTime()
         val UserName:String = user_name
         val Activity: String = finalactivity.text.toString().trim()
@@ -461,28 +477,28 @@ class Prediction : AppCompatActivity() {
 
     private fun setImage(image:ImageView,name:String){
         if (name == "Sitting" || name == "Sitting bent forward" || name == "Sitting bent backward"){
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.sit))
+            image.setImageResource((R.drawable.sit))
         }
         else if (name == "Walking at normal speed"){
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.walk))
+            image.setImageResource((com.specknet.pdiotapp.R.drawable.walk))
         }
         else if (name == "Lying down on back" || name == "Lying down right" || name == "Lying down on left" || name == "Lying down on stomach"){
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.lying))
+            image.setImageResource((R.drawable.lying))
         }
         else if (name == "Movement"){
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.walk))
+            image.setImageResource((R.drawable.walk))
         }
         else if (name == "Standing"){
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.standing))
+            image.setImageResource((R.drawable.standing))
         }
         else if (name == "Running"){
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.running))
+            image.setImageResource((R.drawable.running))
         }
         else if (name == "Climbing stairs"){
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.upstair))
+            image.setImageResource((R.drawable.upstair))
         }
         else if (name == "Descending stairs"){
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.downstair))
+            image.setImageResource((R.drawable.downstair))
         }
     }
 
@@ -509,6 +525,7 @@ class Prediction : AppCompatActivity() {
 //        2 to "Running",
 //        3 to "Lying Down"
 //    )
+
     private fun get_thingy_model_outputs(concise: Boolean, thingyIfInput: FloatArray): FloatArray {
         if(concise){
             return FloatArray(1*6){0.toFloat()}

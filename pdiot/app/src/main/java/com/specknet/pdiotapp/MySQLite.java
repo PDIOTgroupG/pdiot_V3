@@ -100,6 +100,7 @@ public class MySQLite extends SQLiteOpenHelper {
         }catch (SQLException e){
             return 0;
         }
+
     }
 
     public int test1(String date,String name,String activity){
@@ -110,6 +111,7 @@ public class MySQLite extends SQLiteOpenHelper {
         }catch (SQLException e){
             return 0;
         }
+
     }
 
 
@@ -126,6 +128,29 @@ public class MySQLite extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    public int getWalkingCount(String date,String name){
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            Cursor c = db.rawQuery("select * from history where date=? and name=? and activity=?",new String[]{date,name,"Walking"});
+            return c.getCount();
+        }catch (SQLException e){
+            return 0;
+        }
+    }
+
+    public int getRunningCount(String date,String name){
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            Cursor c = db.rawQuery("select * from history where date=? and name=? and activity=?",new String[]{date,name,"Running"});
+            return c.getCount();
+        }catch (SQLException e){
+            return 0;
+        }
+
+    }
+
+
 
 
 
