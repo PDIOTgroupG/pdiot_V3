@@ -33,7 +33,7 @@
 
 
     <Switch
-        android:id="@+id/switch_concisemodel"
+        android:id="@+id/switch_detailsmodel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="432dp"
@@ -80,7 +80,7 @@
         app:layout_constraintBottom_toTopOf="@+id/finalActivity"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_concisemodel"
+        app:layout_constraintTop_toBottomOf="@+id/switch_detailsmodel"
         app:layout_constraintVertical_bias="0.05" />
 
     <TextView
