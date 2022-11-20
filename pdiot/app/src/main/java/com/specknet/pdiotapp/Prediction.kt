@@ -232,15 +232,15 @@ class Prediction : AppCompatActivity() {
         }
         fbtStep.setOnClickListener{
 
-            val walkingStep = mySQLite.getWalkingCount(date, user_name)
-            val runningStep = mySQLite.getRunningCount(date,user_name)
+            val walkingStep:Int = mySQLite.getWalkingCount(date, user_name)*3/2
+            val runningStep:Int = mySQLite.getRunningCount(date,user_name)*3
 
-            val todayStep = (walkingStep+(runningStep*2)).toString()
+            val todayStep:Int = walkingStep+runningStep
 
             AlertDialog.Builder(this).apply {
                 //构建一个对话框
                 setTitle("You have taken a total of")//title
-                setMessage(todayStep+" steps today")//content
+                setMessage(todayStep.toString()+" steps today")//content
                 setCancelable(false)
                 setPositiveButton("OK"){
                         dialog, which ->
@@ -355,7 +355,6 @@ class Prediction : AppCompatActivity() {
                         setTextInt(probability4, probabilityPrediction)
                     }
                 }
-
                 count += 1
             }
             counter = 150

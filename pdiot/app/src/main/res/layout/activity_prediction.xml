@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg2"
     tools:context=".Prediction">
 
     <LinearLayout
@@ -43,13 +44,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/respeck_graphs2" />
 
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="72dp"
         android:layout_height="28dp"
         android:layout_marginStart="64dp"
         android:layout_marginEnd="275dp"
-        android:layout_marginBottom="108dp"
+        android:layout_marginBottom="132dp"
         android:layout_weight="1"
         android:text="You are:"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -66,11 +68,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.544"
+        app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/respeck_graphs2"
-        app:layout_constraintVertical_bias="0.869" />
-
+        app:layout_constraintVertical_bias="0.956" />
 
     <Space
         android:id="@+id/space1"
@@ -271,7 +272,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/respeck_graphs2"
-        app:layout_constraintVertical_bias="0.9"
+        app:layout_constraintVertical_bias="1.0"
         fab:fab_addButtonColorNormal="@color/white"
         fab:fab_addButtonColorPressed="@color/white_pressed"
         fab:fab_addButtonPlusIconColor="@color/half_black"
@@ -283,7 +284,7 @@
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"
-            fab:fab_title="History Activities" />
+            fab:fab_title="View History Activities" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/step_account_check"
@@ -291,7 +292,7 @@
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/white"
             fab:fab_colorPressed="@color/white_pressed"
-            fab:fab_title="Step Account" />
+            fab:fab_title="Steps Today" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
