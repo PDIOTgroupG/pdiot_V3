@@ -1,5 +1,6 @@
 package com.specknet.pdiotapp
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -26,7 +27,6 @@ import com.specknet.pdiotapp.ml.Thingy
 import com.specknet.pdiotapp.utils.Constants
 import com.specknet.pdiotapp.utils.RESpeckLiveData
 import com.specknet.pdiotapp.utils.ThingyLiveData
-import org.apache.commons.lang3.ObjectUtils.Null
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 
@@ -60,13 +60,16 @@ class Prediction : AppCompatActivity() {
     lateinit var output2:TextView
     lateinit var output3:TextView
     lateinit var output4:TextView
+    lateinit var finalactivity:TextView
+
     lateinit var probability1:TextView
     lateinit var probability2:TextView
     lateinit var probability3:TextView
     lateinit var probability4:TextView
-    lateinit var finalactivity:TextView
 
-    lateinit var detailseMode: Switch
+
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    private lateinit var detailseMode: Switch
 
     lateinit var user_name:String
     lateinit var date:String
@@ -75,9 +78,6 @@ class Prediction : AppCompatActivity() {
     lateinit var fbtStep:FloatingActionButton
 
     private lateinit var mySQLite:MySQLite
-
-
-
 
 //    val INDEX_TO_NAME_MAPPING = mapOf(
 //        0 to "Sitting",
@@ -108,7 +108,7 @@ class Prediction : AppCompatActivity() {
                                   "Standing","Running","Climbing stairs","Descending stairs")
 
     val fourActivity = listOf("Sitting/Standing","Walking","Running","Lying Down")
-    val thingyActivity = listOf("Sitting","Standing")
+//    val thingyActivity = listOf("Sitting","Standing")
 
 
 
@@ -118,13 +118,15 @@ class Prediction : AppCompatActivity() {
     var thingy_Input = FloatArray(1*6){0.toFloat()}
     var counter = 0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_prediction)
         setupCharts()
         setUpButton()
         setupClickListeners()
-
+        Log.d("###","Before History Data")
         val hd:HistoryData = HistoryData()
         date = hd.getDateTime()
 
@@ -132,18 +134,18 @@ class Prediction : AppCompatActivity() {
 
         val intent_from_main:Intent = getIntent()
         user_name= intent_from_main.getStringExtra("account_name").toString()
-
+        Log.d("###","After History Data")
         // set up the broadcast receiver
+
+        init()
         respeckLiveUpdateReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
-
                 Log.i("thread", "I am running on thread = " + Thread.currentThread().name)
 
                 val action = intent.action
 
                 if (action == Constants.ACTION_RESPECK_LIVE_BROADCAST) {
-                    val liveData =
-                        intent.getSerializableExtra(Constants.RESPECK_LIVE_DATA) as RESpeckLiveData
+                    val liveData = intent.getSerializableExtra(Constants.RESPECK_LIVE_DATA) as RESpeckLiveData
                     Log.d("Live", "onReceive: liveData = " + liveData)
 
                     // get all relevant intent contents
@@ -156,6 +158,7 @@ class Prediction : AppCompatActivity() {
                     set_respeck_input(x, y, z, gx, gy, gz)
                     time += 1
                     updateGraph("respeck", x, y, z)
+
                 }
 
             }
@@ -206,7 +209,7 @@ class Prediction : AppCompatActivity() {
             override fun onReceive(context: Context, intent: Intent) {
 
                 Log.i("thread", "I am running on thread = " + Thread.currentThread().name)
-                val action = intent.action
+//                val action = intent.action
                 ModelInput(respeck_Input,thingy_Input)
                 time += 1
             }
@@ -216,7 +219,6 @@ class Prediction : AppCompatActivity() {
         looperModel = handlerThreadThingy.looper
         val handlerModel = Handler(looperModel)
         this.registerReceiver(modelLiveUpdateReceiver, filterTestRespeck, null, handlerModel)
-
     }
 
     private fun setUpButton(){
@@ -250,25 +252,22 @@ class Prediction : AppCompatActivity() {
             }
         }
     }
-
-
-
     fun ModelInput(respeck_Input:FloatArray,thingy_Input:FloatArray){
         if (counter <= 294) {
-            this.respeckTfInput.set(counter, respeck_Input[0])
-            this.respeckTfInput.set(counter + 1, respeck_Input[1])
-            this.respeckTfInput.set(counter + 2, respeck_Input[2])
-            this.respeckTfInput.set(counter + 3, respeck_Input[3])
-            this.respeckTfInput.set(counter + 4, respeck_Input[4])
-            this.respeckTfInput.set(counter + 5, respeck_Input[5])
+            this.respeckTfInput[counter] = respeck_Input[0]
+            this.respeckTfInput[counter + 1] = respeck_Input[1]
+            this.respeckTfInput[counter + 2] = respeck_Input[2]
+            this.respeckTfInput[counter + 3] = respeck_Input[3]
+            this.respeckTfInput[counter + 4] = respeck_Input[4]
+            this.respeckTfInput[counter + 5] = respeck_Input[5]
 
             Log.d("###########","Collected the respeck data")
-            this.thingyIfInput.set(counter, thingy_Input[0])
-            this.thingyIfInput.set(counter + 1, thingy_Input[1])
-            this.thingyIfInput.set(counter + 2, thingy_Input[2])
-            this.thingyIfInput.set(counter + 3, thingy_Input[3])
-            this.thingyIfInput.set(counter + 4, thingy_Input[4])
-            this.thingyIfInput.set(counter + 5, thingy_Input[5])
+            this.thingyIfInput[counter] = thingy_Input[0]
+            this.thingyIfInput[counter + 1] = thingy_Input[1]
+            this.thingyIfInput[counter + 2] = thingy_Input[2]
+            this.thingyIfInput[counter + 3] = thingy_Input[3]
+            this.thingyIfInput[counter + 4] = thingy_Input[4]
+            this.thingyIfInput[counter + 5] = thingy_Input[5]
             Log.d("###########","Collected the thingy data")
             counter += 6
         }
@@ -290,44 +289,25 @@ class Prediction : AppCompatActivity() {
 
             for (i in activityList.indices){
                 val activity = activityList[i]
-
-//                if(activity == "Sitting"){
-//                    Log.d("####ACTIVITY####",activity)
-//                    Log.d("####Thingyprobability####"+thingyProbability[0],"Thingy")
-//                    Log.d("####Respeckprobability####"+probabilityList[i],"Respeck")
-//                    activityToProbability[activity] = thingyProbability[0]+probabilityList[i] / 2
-//                }
-//                else if (activity == "Standing"){
-//                    Log.d("####ACTIVITY####",activity)
-//                    Log.d("####Thingyprobability####"+thingyProbability[1],"Thingy")
-//                    Log.d("####Respeckprobability####"+probabilityList[i],"Respeck")
-//                    activityToProbability[activity] = thingyProbability[1]+probabilityList[i] / 2
-//                }
-//                else{
-                activityToProbability[activity] = probabilityList[i]
-
+                Log.d("############Activity#######",activity)
+                Log.d("############Respeck Probability#######",probabilityList[i].toString())
+                Log.d("############Thingy Probability 0#######",thingyProbability[0].toString())
+                Log.d("############Thingy Probability 1#######",thingyProbability[1].toString())
+                if(activity == "Sitting"){
+                    activityToProbability[activity] = thingyProbability[0]
+                }
+                else if (activity == "Standing"){
+                    activityToProbability[activity] = thingyProbability[1]
+                }
+                else if (detailseMode.isChecked){
+                    activityToProbability[activity] = probabilityList[i]
+                }
+                else{
+                    activityToProbability[activity] = probabilityList[i]
+                }
             }
 
             val sortedMap = activityToProbability.toList().sortedByDescending { (_, value) -> value }.toMap()
-
-            image1 = findViewById(R.id.imageView)
-            image2 = findViewById(R.id.imageView2)
-            image3 = findViewById(R.id.imageView3)
-            image4 = findViewById(R.id.imageView4)
-
-            output1 = findViewById(R.id.output1)
-            output2 = findViewById(R.id.output2)
-            output3 = findViewById(R.id.output3)
-            output4 = findViewById(R.id.output4)
-
-
-
-            probability1 = findViewById(R.id.prob1)
-            probability2 = findViewById(R.id.prob2)
-            probability3 = findViewById(R.id.prob3)
-            probability4 = findViewById(R.id.prob4)
-
-            finalactivity = findViewById(R.id.finalActivity)
 
             var count = 1
             for (entry in sortedMap.entries.iterator()) {
@@ -364,6 +344,11 @@ class Prediction : AppCompatActivity() {
                     }
                 }
                 count += 1
+            }
+
+            for (i in 0..149){
+                respeckTfInput[i] = respeckTfInput[i+149]
+                thingyIfInput[i] = thingyIfInput[i+149]
             }
             counter = 150
         }
@@ -455,8 +440,6 @@ class Prediction : AppCompatActivity() {
         looperRespeck.quit()
         unregisterReceiver(thingyLiveUpdateReceiver)
         looperThingy.quit()
-        unregisterReceiver(modelLiveUpdateReceiver)
-        looperModel.quit()
     }
     private fun setText(text: TextView, value: String) {
         runOnUiThread {
@@ -468,7 +451,6 @@ class Prediction : AppCompatActivity() {
             text.text = String.format("%.1f", (value * 100)) + '%'
         }
     }
-
     private fun set_respeck_input(x: Float, y: Float, z: Float, x1: Float, y1: Float, z1: Float){
         this.respeck_Input[0] = x
         this.respeck_Input[1] = y
@@ -486,59 +468,78 @@ class Prediction : AppCompatActivity() {
         this.thingy_Input[5] = z1
     }
 
-    private fun setImage(image:ImageView,name:String){
-        if (name == "Sitting" || name == "Sitting bent forward" || name == "Sitting bent backward"||name == "Sitting/Standing"){
-            Log.d("###########111","Sitting")
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.sit))
-        }
-        else if (name == "Walking at normal speed"||name == "Walking"){
-            Log.d("###########111","Walking")
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.walk))
-        }
-        else if(name == "Desk Work"){
-            Log.d("###########111","Deskwork")
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.desk))
-        }
-        else if (name == "Lying down on back" || name == "Lying down right" || name == "Lying down on left" || name == "Lying down on stomach"||name == "Lying Down"){
-            Log.d("###########111","Lying")
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.lying))
-        }
-        else if (name == "Movement"){
-            Log.d("###########111","Movement")
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.movement))
-        }
-        else if (name == "Standing"){
-            Log.d("###########111","Standing")
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.standing))
-        }
-        else if (name == "Running"){
-            Log.d("###########111","Running")
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.run))
-        }
-        else if (name == "Climbing stairs"){
-            Log.d("###########111","Upstair")
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.upstairs))
-        }
-        else if (name == "Descending stairs"){
-            Log.d("###########111","Downstair")
-            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.downstairs))
-        }
-//        else{
-//            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.sit))
-//        }
+    private fun init(){
+        image1 = findViewById(R.id.imageView1)
+        image2 = findViewById(R.id.imageView2)
+        image3 = findViewById(R.id.imageView3)
+        image4 = findViewById(R.id.imageView4)
+
+        output1 = findViewById(R.id.output1)
+        output2 = findViewById(R.id.output2)
+        output3 = findViewById(R.id.output3)
+        output4 = findViewById(R.id.output4)
+        finalactivity = findViewById(R.id.finalActivity)
+
+        probability1 = findViewById(R.id.prob1)
+        probability2 = findViewById(R.id.prob2)
+        probability3 = findViewById(R.id.prob3)
+        probability4 = findViewById(R.id.prob4)
     }
 
-    private fun get_thingy_model_outputs(concise: Boolean, thingyIfInput: FloatArray): FloatArray {
-        if(concise){
-            return FloatArray(1*6){0.toFloat()}
-        }
-        else{
+
+//    private fun setImage(image:ImageView,name:String){
+//        if (name == "Sitting" || name == "Sitting bent forward" || name == "Sitting bent backward"||name == "Sitting/Standing"){
+//            Log.d("###########111","Sitting")
+////            image.setImageResource(R.drawable.ic_sitting)
+////            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.ic_sitting))
+//        }
+//        else if (name == "Walking at normal speed"||name == "Walking"){
+//            Log.d("###########111","Walking")
+//            image.setImageResource(R.drawable.ic_sitting)
+//        }
+//        else if(name == "Desk Work"){
+//            Log.d("###########111","Deskwork")
+//            image.setImageResource(R.drawable.ic_sitting)
+//        }
+//        else if (name == "Lying down on back" || name == "Lying down right" || name == "Lying down on left" || name == "Lying down on stomach"||name == "Lying Down"){
+//            Log.d("###########111","Lying")
+//            image.setImageResource(R.drawable.ic_sitting)
+//        }
+//        else if (name == "Movement"){
+//            Log.d("###########111","Movement")
+//            image.setImageResource(R.drawable.ic_sitting)
+//        }
+//        else if (name == "Standing"){
+//            Log.d("###########111","Standing")
+//            image.setImageResource(R.drawable.ic_sitting)
+//        }
+//        else if (name == "Running"){
+//            Log.d("###########111","Running")
+//            image.setImageResource(R.drawable.ic_sitting)
+//        }
+//        else if (name == "Climbing stairs"){
+//            Log.d("###########111","Upstair")
+//            image.setImageResource(R.drawable.ic_sitting)
+//        }
+//        else if (name == "Descending stairs"){
+//            Log.d("###########111","Downstair")
+//            image.setImageResource(R.drawable.ic_sitting)
+//        }
+//        else{
+//            image.setImageResource(R.drawable.ic_sitting)
+//        }
+//    }
+
+    private fun get_thingy_model_outputs(details: Boolean, thingyIfInput: FloatArray): FloatArray {
+        return if(details){
             val thingyModel = Thingy.newInstance(this)
             val inputFeatures = TensorBuffer.createFixedSize(intArrayOf(1, 50, 6), DataType.FLOAT32)
             inputFeatures.loadArray(thingyIfInput)
             val outputs = thingyModel.process(inputFeatures)
             thingyModel.close()
-            return outputs.outputFeature0AsTensorBuffer.floatArray
+            outputs.outputFeature0AsTensorBuffer.floatArray
+        } else{
+            FloatArray(1*6){0.toFloat()}
         }
     }
     private fun get_respeck_model_outputs(details:Boolean,respeckTfInput:FloatArray): FloatArray {
