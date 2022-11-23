@@ -1,6 +1,5 @@
 package com.specknet.pdiotapp
 
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -21,7 +20,8 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.specknet.pdiotapp.bean.HistoryData
-import com.specknet.pdiotapp.ml.Cnn14
+//import com.specknet.pdiotapp.ml.Cnn14
+import com.specknet.pdiotapp.ml.Cnn14Latest
 import com.specknet.pdiotapp.ml.Cnn4
 import com.specknet.pdiotapp.ml.Thingy
 import com.specknet.pdiotapp.utils.Constants
@@ -68,7 +68,6 @@ class Prediction : AppCompatActivity() {
     lateinit var probability4:TextView
 
 
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
     private lateinit var detailseMode: Switch
 
     lateinit var user_name:String
@@ -235,10 +234,11 @@ class Prediction : AppCompatActivity() {
         }
         fbtStep.setOnClickListener{
 
-            val walkingStep:Int = mySQLite.getWalkingCount(date, user_name)*3/2
+            val walkingStep:Int = (mySQLite.getWalkingCount(date, user_name)+mySQLite.test1(date,user_name,"Walking at normal speed"))*3/2
             val runningStep:Int = mySQLite.getRunningCount(date,user_name)*3
+            val stairStep:Int = mySQLite.test1(date,user_name,"Climbing stairs")+mySQLite.test1(date,user_name,"Descending stairs")
 
-            val todayStep:Int = walkingStep+runningStep
+            val todayStep:Int = walkingStep+runningStep+stairStep
 
             AlertDialog.Builder(this).apply {
                 //构建一个对话框
@@ -275,9 +275,11 @@ class Prediction : AppCompatActivity() {
             Log.d("###########","Make Prediction")
             detailseMode = findViewById(R.id.switch_detailsmodel)
             var activityList = listOf<String>()
+            Log.d("###########","Windows is 150")
             val probabilityList = get_respeck_model_outputs(detailseMode.isChecked,respeckTfInput)
             val thingyProbability = get_thingy_model_outputs(detailseMode.isChecked,thingyIfInput)
             val activityToProbability = hashMapOf<String, Float>()
+            Log.d("######SUccess","1s success")
             if (detailseMode.isChecked){
                 // activityList = fourActivity
                 activityList = fourteenActivity
@@ -293,18 +295,31 @@ class Prediction : AppCompatActivity() {
                 Log.d("############Respeck Probability#######",probabilityList[i].toString())
                 Log.d("############Thingy Probability 0#######",thingyProbability[0].toString())
                 Log.d("############Thingy Probability 1#######",thingyProbability[1].toString())
-                if(activity == "Sitting"){
-                    activityToProbability[activity] = thingyProbability[0]
-                }
-                else if (activity == "Standing"){
-                    activityToProbability[activity] = thingyProbability[1]
-                }
-                else if (detailseMode.isChecked){
-                    activityToProbability[activity] = probabilityList[i]
-                }
-                else{
-                    activityToProbability[activity] = probabilityList[i]
-                }
+//                if(activity == "Sitting"){
+//                    activityToProbability[activity] = thingyProbability[0]
+//                }
+//                else if (activity == "Standing"){
+//                    activityToProbability[activity] = thingyProbability[1]
+//                }
+//                else if (detailseMode.isChecked){
+//                    activityToProbability[activity] = probabilityList[i]
+//                }
+//                else{
+//                    activityToProbability[activity] = probabilityList[i]
+//                }
+                activityToProbability[activity] = probabilityList[i]
+            }
+            if(detailseMode.isChecked && thingyProbability[0]>0.5){
+                val original_prob = activityToProbability["Sitting"]
+                val extra_prob = activityToProbability["Standing"]
+                activityToProbability["Sitting"] = original_prob!! + extra_prob!!
+                activityToProbability["Standing"] = 0F
+            }
+            else if(detailseMode.isChecked && thingyProbability[1]>0.5){
+                val original_prob = activityToProbability["Standing"]
+                val extra_prob = activityToProbability["Sitting"]
+                activityToProbability["Standing"] = original_prob!! + extra_prob!!
+                activityToProbability["Sitting"] = 0F
             }
 
             val sortedMap = activityToProbability.toList().sortedByDescending { (_, value) -> value }.toMap()
@@ -320,37 +335,38 @@ class Prediction : AppCompatActivity() {
                 val probabilityPrediction = entry.value
 
                 when (count) {
+
                     1 -> {
                         setText(output1, stringPrediction)
-//                        setImage(image1,stringPrediction)
+                        setImage(image1,stringPrediction)
                         setText(finalactivity, stringPrediction)
                         setTextInt(probability1, probabilityPrediction)
                         insertToHistoryDB()
                     }
                     2 -> {
                         setText(output2, stringPrediction)
-//                        setImage(image2,stringPrediction)
+                        setImage(image2,stringPrediction)
                         setTextInt(probability2, probabilityPrediction)
                     }
                     3 -> {
                         setText(output3, stringPrediction)
-//                        setImage(image3,stringPrediction)
+                        setImage(image3,stringPrediction)
                         setTextInt(probability3, probabilityPrediction)
                     }
                     4 -> {
                         setText(output4, stringPrediction)
-//                        setImage(image4,stringPrediction)
+                        setImage(image4,stringPrediction)
                         setTextInt(probability4, probabilityPrediction)
                     }
                 }
                 count += 1
             }
 
-            for (i in 0..149){
-                respeckTfInput[i] = respeckTfInput[i+149]
-                thingyIfInput[i] = thingyIfInput[i+149]
-            }
-            counter = 150
+//            for (i in 0..149){
+//                respeckTfInput[i] = respeckTfInput[i+149]
+//                thingyIfInput[i] = thingyIfInput[i+149]
+//            }
+            counter = 0
         }
     }
 
@@ -440,6 +456,7 @@ class Prediction : AppCompatActivity() {
         looperRespeck.quit()
         unregisterReceiver(thingyLiveUpdateReceiver)
         looperThingy.quit()
+        looperModel.quit()
     }
     private fun setText(text: TextView, value: String) {
         runOnUiThread {
@@ -487,48 +504,50 @@ class Prediction : AppCompatActivity() {
     }
 
 
-//    private fun setImage(image:ImageView,name:String){
-//        if (name == "Sitting" || name == "Sitting bent forward" || name == "Sitting bent backward"||name == "Sitting/Standing"){
-//            Log.d("###########111","Sitting")
-////            image.setImageResource(R.drawable.ic_sitting)
-////            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.ic_sitting))
-//        }
-//        else if (name == "Walking at normal speed"||name == "Walking"){
-//            Log.d("###########111","Walking")
-//            image.setImageResource(R.drawable.ic_sitting)
-//        }
-//        else if(name == "Desk Work"){
-//            Log.d("###########111","Deskwork")
-//            image.setImageResource(R.drawable.ic_sitting)
-//        }
-//        else if (name == "Lying down on back" || name == "Lying down right" || name == "Lying down on left" || name == "Lying down on stomach"||name == "Lying Down"){
-//            Log.d("###########111","Lying")
-//            image.setImageResource(R.drawable.ic_sitting)
-//        }
-//        else if (name == "Movement"){
-//            Log.d("###########111","Movement")
-//            image.setImageResource(R.drawable.ic_sitting)
-//        }
-//        else if (name == "Standing"){
-//            Log.d("###########111","Standing")
-//            image.setImageResource(R.drawable.ic_sitting)
-//        }
-//        else if (name == "Running"){
-//            Log.d("###########111","Running")
-//            image.setImageResource(R.drawable.ic_sitting)
-//        }
-//        else if (name == "Climbing stairs"){
-//            Log.d("###########111","Upstair")
-//            image.setImageResource(R.drawable.ic_sitting)
-//        }
-//        else if (name == "Descending stairs"){
-//            Log.d("###########111","Downstair")
-//            image.setImageResource(R.drawable.ic_sitting)
-//        }
-//        else{
-//            image.setImageResource(R.drawable.ic_sitting)
-//        }
-//    }
+    private fun setImage(image:ImageView,name:String){
+        runOnUiThread {
+            if (name == "Sitting" || name == "Sitting bent forward" || name == "Sitting bent backward"||name == "Sitting/Standing"){
+                Log.d("###########111","Sitting")
+            image.setImageResource(R.drawable.sit)
+//            image.setImageDrawable(resources.getDrawable(com.specknet.pdiotapp.R.drawable.ic_sitting))
+            }
+            else if (name == "Walking at normal speed"||name == "Walking"){
+                Log.d("###########111","Walking")
+                image.setImageResource(R.drawable.walk)
+            }
+            else if(name == "Desk work"){
+                Log.d("###########111","Deskwork")
+                image.setImageResource(R.drawable.desk)
+            }
+            else if (name == "Lying down on back" || name == "Lying down right" || name == "Lying down on left" || name == "Lying down on stomach"||name == "Lying Down"){
+                Log.d("###########111","Lying")
+                image.setImageResource(R.drawable.lying)
+            }
+            else if (name == "Movement"){
+                Log.d("###########111","Movement")
+                image.setImageResource(R.drawable.movement)
+            }
+            else if (name == "Standing"){
+                Log.d("###########111","Standing")
+                image.setImageResource(R.drawable.standing)
+            }
+            else if (name == "Running"){
+                Log.d("###########111","Running")
+                image.setImageResource(R.drawable.run)
+            }
+            else if (name == "Climbing stairs"){
+                Log.d("###########111","Upstair")
+                image.setImageResource(R.drawable.upstairs)
+            }
+            else if (name == "Descending stairs"){
+                Log.d("###########111","Downstair")
+                image.setImageResource(R.drawable.downstairs)
+            }
+            else{
+                image.setImageResource(R.drawable.standing)
+            }
+        }
+    }
 
     private fun get_thingy_model_outputs(details: Boolean, thingyIfInput: FloatArray): FloatArray {
         return if(details){
@@ -544,7 +563,7 @@ class Prediction : AppCompatActivity() {
     }
     private fun get_respeck_model_outputs(details:Boolean,respeckTfInput:FloatArray): FloatArray {
         if(details){
-            val pdiotModel = Cnn14.newInstance(this)
+            val pdiotModel = Cnn14Latest.newInstance(this)
             val inputFeatures = TensorBuffer.createFixedSize(intArrayOf(1, 50, 6), DataType.FLOAT32)
             inputFeatures.loadArray(respeckTfInput)
 

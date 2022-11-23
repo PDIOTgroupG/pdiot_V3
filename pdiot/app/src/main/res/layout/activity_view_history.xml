@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg2"
+    android:background="#FFF8E1"
     tools:context=".ViewHistoryActivity">
 
     <!--    <com.sung2063.tableau_library.graph.PieGraphView-->

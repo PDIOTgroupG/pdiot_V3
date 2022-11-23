@@ -32,6 +32,7 @@ class ViewHistoryActivity : AppCompatActivity() {
     var SittingPercent:Float = 0.0f
     var RunningPercent:Float = 0.0f
     var LyingPercent:Float = 0.0f
+    var StairPercent:Float = 0.0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -74,17 +75,27 @@ class ViewHistoryActivity : AppCompatActivity() {
 //                    pieGraphView.setVisibility(View.VISIBLE)
                     dotGraphView.setVisibility(View.VISIBLE)
 
-                    val TotalRowInGivenDate:Int = mySQLite.test(date, user_name)
-                    val TotalRowWalking:Int = mySQLite.test1(date,user_name,"Walking")
-                    val TotalRowSitting:Int = mySQLite.test1(date,user_name,"Sitting/Standing")
+                    var TotalRowInGivenDate:Int = mySQLite.test(date, user_name)
+                    //WALKING
+                    val TotalRowWalking:Int = mySQLite.test1(date,user_name,"Walking")+mySQLite.test1(date,user_name,"Walking at normal speed")
+                    //SITTING AND STANDING
+                    val TotalRowSitting:Int = mySQLite.test1(date,user_name,"Sitting/Standing")+mySQLite.test1(date,user_name,"Sitting")+
+                            mySQLite.test1(date,user_name,"Sitting bent forward")+mySQLite.test1(date,user_name,"Sitting bent backward")+
+                            mySQLite.test1(date,user_name,"Desk work")+mySQLite.test1(date,user_name,"Standing")
+                    //running
                     val TotalRowRunning:Int = mySQLite.test1(date,user_name,"Running")
-                    val TotalRowLyingDown:Int = mySQLite.test1(date,user_name,"Lying Down")
+                    //lying
+                    val TotalRowLyingDown:Int = mySQLite.test1(date,user_name,"Lying Down")+mySQLite.test1(date,user_name,"Lying down on back")+mySQLite.test1(date,user_name,"Lying down right")+
+                            mySQLite.test1(date,user_name,"Lying down left")+mySQLite.test1(date,user_name,"Lying down on stomach")
 
+                    val TotalRowStairs:Int = mySQLite.test1(date,user_name,"Climbing stairs")+mySQLite.test1(date,user_name,"Descending stairs")
+                    TotalRowInGivenDate = TotalRowWalking+TotalRowSitting+TotalRowRunning+TotalRowLyingDown+TotalRowStairs
                     if (TotalRowInGivenDate!=0){
                         WalkingPercent = (TotalRowWalking*100)/TotalRowInGivenDate.toFloat()
                         SittingPercent = (TotalRowSitting*100)/TotalRowInGivenDate.toFloat()
                         RunningPercent = (TotalRowRunning*100)/TotalRowInGivenDate.toFloat()
                         LyingPercent = (TotalRowLyingDown*100)/TotalRowInGivenDate.toFloat()
+                        StairPercent = (TotalRowStairs*100)/TotalRowInGivenDate.toFloat()
                     }
 
 
@@ -95,7 +106,8 @@ class ViewHistoryActivity : AppCompatActivity() {
                         DotProgressModel("Sitting/Standing", SittingPercent, "#cfaf25"),
                         DotProgressModel("Walking", WalkingPercent, "#25cfcc"),
                         DotProgressModel("Running", RunningPercent, "#6325cf"),
-                        DotProgressModel("Lying Down", LyingPercent, "#cf2569")
+                        DotProgressModel("Lying Down", LyingPercent, "#cf2569"),
+                        DotProgressModel("Climbing/Descending Stairs", StairPercent, "#cf2569")
                     )
 
                     // [2] Set Handler and link with the view
@@ -118,7 +130,9 @@ class ViewHistoryActivity : AppCompatActivity() {
                         setMessage(String.format("%.2f",WalkingPercent)+"% time you are Walking "
                                 +String.format("%.2f",SittingPercent)+"% time you are Sitting/Standing "
                                 +String.format("%.2f",RunningPercent)+"% time you are Running "
-                                +String.format("%.2f",LyingPercent)+"% time you are Lying ")//content
+                                +String.format("%.2f",LyingPercent)+"% time you are Lying "
+                                +String.format("%.2f",StairPercent)+"% time you are Climb/Descend Stairs ")
+                        //content
                         setCancelable(false)
                         setPositiveButton("OK"){
                                 dialog, which ->
