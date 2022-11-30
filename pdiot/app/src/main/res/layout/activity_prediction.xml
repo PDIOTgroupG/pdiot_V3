@@ -5,17 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF8E1"
     tools:context=".Prediction">
 
     <LinearLayout
         android:id="@+id/respeck_graphs2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -27,7 +24,7 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/respeck_chart2"
             android:layout_width="match_parent"
-            android:layout_height="187dp" />
+            android:layout_height="200dp" />
 
     </LinearLayout>
 
@@ -40,24 +37,25 @@
         android:text="Detail Model"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintHorizontal_bias="0.475"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/respeck_graphs2" />
-
+        app:layout_constraintTop_toBottomOf="@+id/respeck_graphs2"
+        app:layout_constraintVertical_bias="0.509" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/youare"
         android:layout_width="72dp"
         android:layout_height="28dp"
         android:layout_marginStart="64dp"
         android:layout_marginEnd="275dp"
-        android:layout_marginBottom="132dp"
+        android:layout_marginBottom="112dp"
         android:layout_weight="1"
         android:text="You are:"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
 
     <TextView
         android:id="@+id/finalActivity"
@@ -68,211 +66,148 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/respeck_graphs2"
-        app:layout_constraintVertical_bias="0.956" />
-
-    <Space
-        android:id="@+id/space1"
-        android:layout_width="293dp"
-        android:layout_height="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/finalActivity"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switch_detailsmodel"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.938" />
 
     <TextView
         android:id="@+id/output1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="44dp"
-        android:text="Activity-one"
-        app:layout_constraintBottom_toBottomOf="@+id/space1"
-        app:layout_constraintEnd_toStartOf="@+id/prob1"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/space1"
-        app:layout_constraintTop_toTopOf="@+id/space1"
-        app:layout_constraintVertical_bias="0.5" />
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="68dp"
+        android:text="Activity1"
+        app:layout_constraintStart_toEndOf="@+id/image1"
+        app:layout_constraintTop_toBottomOf="@+id/switch_detailsmodel" />
 
     <TextView
         android:id="@+id/prob1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="68dp"
         android:text="probability1"
-        app:layout_constraintBottom_toBottomOf="@+id/space1"
-        app:layout_constraintEnd_toEndOf="@+id/space1"
-        app:layout_constraintTop_toTopOf="@+id/space1"
-        app:layout_constraintVertical_bias="0.5" />
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/space1"
-        app:layout_constraintEnd_toStartOf="@+id/output1"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/space1"
-        app:layout_constraintTop_toTopOf="@+id/space1"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@android:drawable/ic_menu_myplaces" />
-    <Space
-        android:id="@+id/space2"
-        android:layout_width="293dp"
-        android:layout_height="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/finalActivity"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space1"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/output1"
+        app:layout_constraintTop_toBottomOf="@+id/switch_detailsmodel" />
 
     <TextView
         android:id="@+id/output2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="44dp"
-        android:text="Activity-two"
-        app:layout_constraintBottom_toBottomOf="@+id/space2"
-        app:layout_constraintEnd_toStartOf="@+id/prob2"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/space2"
-        app:layout_constraintTop_toTopOf="@+id/space2"
-        app:layout_constraintVertical_bias="0.5" />
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:text="Activity2"
+        app:layout_constraintStart_toEndOf="@+id/image2"
+        app:layout_constraintTop_toBottomOf="@+id/output1" />
 
     <TextView
         android:id="@+id/prob2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
+        android:layout_marginTop="20dp"
         android:text="probability2"
-        app:layout_constraintBottom_toBottomOf="@+id/space2"
-        app:layout_constraintEnd_toEndOf="@+id/space2"
-        app:layout_constraintTop_toTopOf="@+id/space2"
-        app:layout_constraintVertical_bias="0.5" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/space2"
-        app:layout_constraintEnd_toStartOf="@+id/output2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/space2"
-        app:layout_constraintTop_toTopOf="@+id/space2"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@android:drawable/ic_menu_myplaces" />
-
-    <Space
-        android:id="@+id/space3"
-        android:layout_width="293dp"
-        android:layout_height="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/finalActivity"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space2"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintHorizontal_bias="0.117"
+        app:layout_constraintStart_toEndOf="@+id/output2"
+        app:layout_constraintTop_toBottomOf="@+id/prob1" />
 
     <TextView
         android:id="@+id/output3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="44dp"
-        android:text="Activity-three"
-        app:layout_constraintBottom_toBottomOf="@+id/space3"
-        app:layout_constraintEnd_toStartOf="@+id/prob3"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/space3"
-        app:layout_constraintTop_toTopOf="@+id/space3"
-        app:layout_constraintVertical_bias="0.5" />
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="Activity3"
+        app:layout_constraintStart_toEndOf="@+id/image3"
+        app:layout_constraintTop_toBottomOf="@+id/output2" />
 
     <TextView
         android:id="@+id/prob3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
+        android:layout_marginTop="16dp"
         android:text="probability3"
-        app:layout_constraintBottom_toBottomOf="@+id/space3"
-        app:layout_constraintEnd_toEndOf="@+id/space3"
-        app:layout_constraintTop_toTopOf="@+id/space3"
-        app:layout_constraintVertical_bias="0.5" />
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/space3"
-        app:layout_constraintEnd_toStartOf="@+id/output3"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/space3"
-        app:layout_constraintTop_toTopOf="@+id/space3"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@android:drawable/ic_menu_myplaces" />
-
-
-    <Space
-        android:id="@+id/space4"
-        android:layout_width="293dp"
-        android:layout_height="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/finalActivity"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space3"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintHorizontal_bias="0.117"
+        app:layout_constraintStart_toEndOf="@+id/output3"
+        app:layout_constraintTop_toBottomOf="@+id/prob2" />
 
     <TextView
         android:id="@+id/output4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="44dp"
-        android:text="Activity-four"
-        app:layout_constraintBottom_toBottomOf="@+id/space4"
-        app:layout_constraintEnd_toStartOf="@+id/prob4"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/space4"
-        app:layout_constraintTop_toTopOf="@+id/space4"
-        app:layout_constraintVertical_bias="0.5" />
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:text="Activity4"
+        app:layout_constraintStart_toEndOf="@+id/image4"
+        app:layout_constraintTop_toBottomOf="@+id/output3" />
 
     <TextView
         android:id="@+id/prob4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
+        android:layout_marginTop="20dp"
         android:text="probability4"
-        app:layout_constraintBottom_toBottomOf="@+id/space4"
-        app:layout_constraintEnd_toEndOf="@+id/space4"
-        app:layout_constraintTop_toTopOf="@+id/space4"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.117"
+        app:layout_constraintStart_toEndOf="@+id/output4"
+        app:layout_constraintTop_toBottomOf="@+id/prob3" />
+
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/image1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/space4"
-        app:layout_constraintEnd_toStartOf="@+id/output4"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/space4"
-        app:layout_constraintTop_toTopOf="@+id/space4"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@android:drawable/ic_menu_myplaces" />
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_detailsmodel"
+        fab:srcCompat="@drawable/standing" />
+
+    <ImageView
+        android:id="@+id/image2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image1"
+        fab:srcCompat="@drawable/standing" />
+
+    <ImageView
+        android:id="@+id/image3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image2"
+        fab:srcCompat="@drawable/standing" />
+
+    <ImageView
+        android:id="@+id/image4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image3"
+        fab:srcCompat="@drawable/standing" />
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/multiple_actions"
+        android:id="@+id/multiple_actions1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="232dp"
-        app:layout_constraintBottom_toBottomOf="@+id/finalActivity"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/respeck_graphs2"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.91"
         fab:fab_addButtonColorNormal="@color/white"
         fab:fab_addButtonColorPressed="@color/white_pressed"
         fab:fab_addButtonPlusIconColor="@color/half_black"
@@ -298,3 +233,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

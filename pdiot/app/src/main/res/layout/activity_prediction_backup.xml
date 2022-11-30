@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF8E1">
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/respeck_graphs2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Respeck Live Data" />-->
+
+<!--        <com.github.mikephil.charting.charts.LineChart-->
+<!--            android:id="@+id/respeck_chart2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="187dp" />-->
+
+<!--    </LinearLayout>-->
+
+
+<!--    <Switch-->
+<!--        android:id="@+id/switch_detailsmodel"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="432dp"-->
+<!--        android:text="Detail Model"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.476"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/respeck_graphs2" />-->
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/textView"-->
+<!--        android:layout_width="72dp"-->
+<!--        android:layout_height="28dp"-->
+<!--        android:layout_marginStart="64dp"-->
+<!--        android:layout_marginEnd="275dp"-->
+<!--        android:layout_marginBottom="132dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:text="You are:"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/finalActivity"-->
+<!--        android:layout_width="161dp"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:text="finalActivity"-->
+<!--        android:textSize="24sp"-->
+<!--        android:textStyle="bold"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.472"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/respeck_graphs2"-->
+<!--        app:layout_constraintVertical_bias="0.956" />-->
+
+<!--    <Space-->
+<!--        android:id="@+id/space1"-->
+<!--        android:layout_width="293dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/finalActivity"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/switch_detailsmodel"-->
+<!--        app:layout_constraintVertical_bias="0.05" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/output1"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="44dp"-->
+<!--        android:text="Activity-one"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/space1"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/prob1"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/space1"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/space1"-->
+<!--        app:layout_constraintVertical_bias="0.5" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/prob1"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="40dp"-->
+<!--        android:text="probability1"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/space1"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/space1"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/space1"-->
+<!--        app:layout_constraintVertical_bias="0.5" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView1"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/space1"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/output1"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/space1"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/space1"-->
+<!--        app:layout_constraintVertical_bias="1.0"-->
+<!--        app:srcCompat="@android:drawable/ic_menu_myplaces" />-->
+<!--    <Space-->
+<!--        android:id="@+id/space2"-->
+<!--        android:layout_width="293dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/finalActivity"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/space1"-->
+<!--        app:layout_constraintVertical_bias="0.05" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/output2"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="44dp"-->
+<!--        android:text="Activity-two"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/space2"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/prob2"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/space2"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/space2"-->
+<!--        app:layout_constraintVertical_bias="0.5" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/prob2"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="40dp"-->
+<!--        android:text="probability2"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/space2"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/space2"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/space2"-->
+<!--        app:layout_constraintVertical_bias="0.5" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView2"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/space2"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/output2"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/space2"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/space2"-->
+<!--        app:layout_constraintVertical_bias="1.0"-->
+<!--        app:srcCompat="@android:drawable/ic_menu_myplaces" />-->
+
+<!--    <Space-->
+<!--        android:id="@+id/space3"-->
+<!--        android:layout_width="293dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/finalActivity"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/space2"-->
+<!--        app:layout_constraintVertical_bias="0.05" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/output3"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="44dp"-->
+<!--        android:text="Activity-three"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/space3"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/prob3"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/space3"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/space3"-->
+<!--        app:layout_constraintVertical_bias="0.5" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/prob3"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="40dp"-->
+<!--        android:text="probability3"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/space3"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/space3"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/space3"-->
+<!--        app:layout_constraintVertical_bias="0.5" />-->
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView3"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/space3"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/output3"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/space3"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/space3"-->
+<!--        app:layout_constraintVertical_bias="1.0"-->
+<!--        app:srcCompat="@android:drawable/ic_menu_myplaces" />-->
+
+
+<!--    <Space-->
+<!--        android:id="@+id/space4"-->
+<!--        android:layout_width="293dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/finalActivity"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/space3"-->
+<!--        app:layout_constraintVertical_bias="0.05" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/output4"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="44dp"-->
+<!--        android:text="Activity-four"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/space4"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/prob4"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/space4"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/space4"-->
+<!--        app:layout_constraintVertical_bias="0.5" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/prob4"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="40dp"-->
+<!--        android:text="probability4"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/space4"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/space4"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/space4"-->
+<!--        app:layout_constraintVertical_bias="0.5" />-->
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView4"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/space4"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/output4"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/space4"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/space4"-->
+<!--        app:layout_constraintVertical_bias="1.0"-->
+<!--        app:srcCompat="@android:drawable/ic_menu_myplaces" />-->
+
+<!--    <com.getbase.floatingactionbutton.FloatingActionsMenu-->
+<!--        android:id="@+id/multiple_actions1"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginTop="232dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/finalActivity"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/respeck_graphs2"-->
+<!--        app:layout_constraintVertical_bias="1.0"-->
+<!--        fab:fab_addButtonColorNormal="@color/white"-->
+<!--        fab:fab_addButtonColorPressed="@color/white_pressed"-->
+<!--        fab:fab_addButtonPlusIconColor="@color/half_black"-->
+<!--        fab:fab_labelStyle="@style/menu_labels_style">-->
+
+<!--        <com.getbase.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/history_check"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            fab:fab_colorNormal="@color/white"-->
+<!--            fab:fab_colorPressed="@color/white_pressed"-->
+<!--            fab:fab_title="View History Activities" />-->
+
+<!--        <com.getbase.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/step_account_check"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            fab:fab_colorNormal="@color/white"-->
+<!--            fab:fab_colorPressed="@color/white_pressed"-->
+<!--            fab:fab_title="Steps Today" />-->
+
+<!--    </com.getbase.floatingactionbutton.FloatingActionsMenu>-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
