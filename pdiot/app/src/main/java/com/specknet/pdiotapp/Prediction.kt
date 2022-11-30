@@ -108,6 +108,7 @@ class Prediction : AppCompatActivity() {
         setUpButton()
         setupClickListeners()
         initImage()
+        initText()
 
         Log.d("###","Before History Data")
         val hd:HistoryData = HistoryData()
@@ -134,6 +135,18 @@ class Prediction : AppCompatActivity() {
             image3.setImageResource(R.drawable.standing)
             image4.setImageResource(R.drawable.standing)
         }
+    }
+
+    private fun initText(){
+        output1.setText("Activity1")
+        output2.setText("Activity2")
+        output3.setText("Activity3")
+        output4.setText("Activity4")
+        probability1.setText("probability1")
+        probability2.setText("probability2")
+        probability3.setText("probability3")
+        probability4.setText("probability4")
+        finalactivity.setText("FinalResult")
     }
 
 
