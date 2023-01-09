@@ -37,17 +37,9 @@ class Prediction : AppCompatActivity() {
     lateinit var dataSet_res_accel_y: LineDataSet
     lateinit var dataSet_res_accel_z: LineDataSet
 
-    lateinit var dataSet_thingy_accel_x: LineDataSet
-    lateinit var dataSet_thingy_accel_y: LineDataSet
-    lateinit var dataSet_thingy_accel_z: LineDataSet
-
     var time = 0f
     lateinit var allRespeckData: LineData
-
-    lateinit var allThingyData: LineData
-
     lateinit var respeckChart: LineChart
-    lateinit var thingyChart: LineChart
 
     // global broadcast receiver so we can unregister it
     lateinit var respeckLiveUpdateReceiver: BroadcastReceiver
@@ -98,17 +90,14 @@ class Prediction : AppCompatActivity() {
     private var respeck_Input = FloatArray(1*6){0.toFloat()}
     private var thingy_Input = FloatArray(1*6){0.toFloat()}
     private var counter = 0
-//
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_prediction)
 
         init()
-        setUpButton()
         setupClickListeners()
-        initImage()
-        initText()
+
 
         Log.d("###","Before History Data")
         val hd:HistoryData = HistoryData()
@@ -121,11 +110,6 @@ class Prediction : AppCompatActivity() {
         Log.d("###","After History Data")
         setupCharts()
         set()
-    }
-
-    private fun setUpButton(){
-        fbtHistory = findViewById(R.id.history_check)
-        fbtStep = findViewById(R.id.step_account_check)
     }
 
     private fun initImage(){
@@ -285,6 +269,12 @@ class Prediction : AppCompatActivity() {
         probability2 = findViewById(R.id.prob2)
         probability3 = findViewById(R.id.prob3)
         probability4 = findViewById(R.id.prob4)
+
+        fbtHistory = findViewById(R.id.history_check)
+        fbtStep = findViewById(R.id.step_account_check)
+
+        initImage()
+        initText()
     }
     private fun set_respeck_input(x: Float, y: Float, z: Float, x1: Float, y1: Float, z1: Float){
         this.respeck_Input[0] = x
@@ -307,7 +297,6 @@ class Prediction : AppCompatActivity() {
         respeckChart = findViewById(R.id.respeck_chart2)
 
         // Respeck
-
         time = 0f
         val entries_res_accel_x = ArrayList<Entry>()
         val entries_res_accel_y = ArrayList<Entry>()
@@ -548,10 +537,6 @@ class Prediction : AppCompatActivity() {
                 count += 1
             }
 
-//            for (i in 0..149){
-//                respeckTfInput[i] = respeckTfInput[i+149]
-//                thingyIfInput[i] = thingyIfInput[i+149]
-//            }
             counter = 0
         }
     }
