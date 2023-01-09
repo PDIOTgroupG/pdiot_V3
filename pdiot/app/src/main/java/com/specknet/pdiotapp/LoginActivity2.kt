@@ -64,9 +64,12 @@ class LoginActivity2 : AppCompatActivity() {
         val userID: String = username.text.toString().trim()
         val pwd: String = password.text.toString().trim()
         if (userID.isEmpty()){
-            Toast.makeText(this, "Please input your Email/studentID", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please input your Email", Toast.LENGTH_SHORT).show()
             username.setError("Username cannot be empty")
             username.requestFocus()
+        }
+        else if (!userID.contains('@')){
+            Toast.makeText(this, "Please input a valid Email", Toast.LENGTH_SHORT).show()
         }
         else if (pwd.isEmpty()){
             Toast.makeText(this, "Please input your password", Toast.LENGTH_SHORT).show()

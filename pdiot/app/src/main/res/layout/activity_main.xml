@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg2"
+    android:background="@drawable/bg3"
     android:id="@+id/coordinatorLayout"
     tools:context=".MainActivity">
 
@@ -20,6 +20,7 @@
             android:id="@+id/record_button"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_marginStart="16dp"
             android:background="#FF9800"
             android:text="Record data"
             android:textColor="#FFFFFF"
@@ -50,7 +51,7 @@
                 android:id="@+id/connectSensor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/white"
+                fab:fab_colorNormal="@color/green"
                 fab:fab_colorPressed="@color/white_pressed"
                 fab:fab_title="Pairing devices" />
 
@@ -58,7 +59,7 @@
                 android:id="@+id/logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                fab:fab_colorNormal="@color/white"
+                fab:fab_colorNormal="@color/red"
                 fab:fab_colorPressed="@color/white_pressed"
                 fab:fab_title="Log out" />
 
@@ -66,22 +67,22 @@
 
         <TextView
             android:id="@+id/tvWelcome"
-            android:layout_width="41dp"
-            android:layout_height="39dp"
+            android:layout_width="48dp"
+            android:layout_height="41dp"
             android:text="Hi!"
-            android:textSize="25sp"
+            android:textSize="30sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvUsername"
-            app:layout_constraintHorizontal_bias="0.516"
+            app:layout_constraintHorizontal_bias="0.842"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.077" />
+            app:layout_constraintVertical_bias="0.076" />
 
         <TextView
             android:id="@+id/tvUsername"
             android:layout_width="92dp"
             android:layout_height="52dp"
-            android:layout_marginEnd="204dp"
+            android:layout_marginEnd="244dp"
             android:text="user"
             android:textColor="@color/light_blue"
             android:textSize="35sp"
@@ -89,18 +90,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.109" />
+            app:layout_constraintVertical_bias="0.138" />
 
         <Button
             android:id="@+id/prediction_button"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_marginEnd="16dp"
             android:background="#E91E63"
             android:text="Prediction"
             android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.499" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

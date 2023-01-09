@@ -36,10 +36,13 @@ class ViewHistoryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+        val hd:HistoryData = HistoryData()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_history)
         setUpView()
+        editText.setText(hd.getDateTime())
+
         initGraph()
         setupClickListeners()
 
@@ -58,6 +61,8 @@ class ViewHistoryActivity : AppCompatActivity() {
 //        pieGraphView = findViewById(R.id.pie_graph_view)
         dotGraphView = findViewById(R.id.dot_progress_view)
     }
+
+
 
 
     private fun setupClickListeners() {

@@ -29,16 +29,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-<!--    <com.sung2063.tableau_library.graph.PieGraphView-->
-<!--        android:id="@+id/pie_graph_view"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.0" />-->
+
+
+
+
 
     <EditText
         android:id="@+id/editTextDate"
@@ -54,12 +48,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.425" />
 
+
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="272dp"
-        android:layout_height="23dp"
+        android:layout_width="355dp"
+        android:layout_height="42dp"
         android:layout_marginTop="16dp"
-        android:text="Please input the date you want to view"
+        android:text="Please input the date you want to view:Default format YYYY-MM-DD"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/editTextDate"
@@ -68,6 +63,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.762" />
+
 
     <Button
         android:id="@+id/view_button"
