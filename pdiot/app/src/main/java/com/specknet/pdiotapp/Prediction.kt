@@ -45,6 +45,7 @@ class Prediction : AppCompatActivity() {
     lateinit var respeckLiveUpdateReceiver: BroadcastReceiver
     lateinit var thingyLiveUpdateReceiver: BroadcastReceiver
     lateinit var modelLiveUpdateReceiver: BroadcastReceiver
+
     lateinit var looperRespeck: Looper
     lateinit var looperThingy: Looper
     lateinit var looperModel: Looper
@@ -97,9 +98,8 @@ class Prediction : AppCompatActivity() {
 
         init()
         setupClickListeners()
+        setupRespeckCharts()
 
-
-        Log.d("###","Before History Data")
         val hd:HistoryData = HistoryData()
         date = hd.getDateTime()
 
@@ -107,9 +107,8 @@ class Prediction : AppCompatActivity() {
 
         val intent_from_main:Intent = getIntent()
         user_name= intent_from_main.getStringExtra("account_name").toString()
-        Log.d("###","After History Data")
-        setupCharts()
-        set()
+
+        start()
     }
 
     private fun initImage(){
@@ -132,8 +131,6 @@ class Prediction : AppCompatActivity() {
         probability4.setText("probability4")
         finalactivity.setText("FinalResult")
     }
-
-
 
     private fun setupClickListeners() {
         fbtHistory.setOnClickListener {
@@ -164,7 +161,7 @@ class Prediction : AppCompatActivity() {
     }
 
 
-    fun set(){
+    fun start(){
         // set up the broadcast receiver
         respeckLiveUpdateReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -273,6 +270,8 @@ class Prediction : AppCompatActivity() {
         fbtHistory = findViewById(R.id.history_check)
         fbtStep = findViewById(R.id.step_account_check)
 
+        respeckChart = findViewById(R.id.respeck_chart2)
+
         initImage()
         initText()
     }
@@ -293,7 +292,7 @@ class Prediction : AppCompatActivity() {
         this.thingy_Input[5] = z1
     }
 
-    fun setupCharts() {
+    fun setupRespeckCharts() {
         respeckChart = findViewById(R.id.respeck_chart2)
 
         // Respeck
