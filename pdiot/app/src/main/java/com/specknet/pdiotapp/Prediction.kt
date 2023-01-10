@@ -95,19 +95,7 @@ class Prediction : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_prediction)
-
         init()
-        setupClickListeners()
-        setupRespeckCharts()
-
-        val hd:HistoryData = HistoryData()
-        date = hd.getDateTime()
-
-        mySQLite = MySQLite(this)
-
-        val intent_from_main:Intent = getIntent()
-        user_name= intent_from_main.getStringExtra("account_name").toString()
-
         start()
     }
 
@@ -118,6 +106,20 @@ class Prediction : AppCompatActivity() {
             image3.setImageResource(R.drawable.standing)
             image4.setImageResource(R.drawable.standing)
         }
+    }
+
+    private fun initSQLDatabase(){
+        mySQLite = MySQLite(this)
+    }
+
+    private fun initDate(){
+        val hd:HistoryData = HistoryData()
+        date = hd.getDateTime()
+    }
+
+    private fun initUser(){
+        val intent_from_main:Intent = getIntent()
+        user_name= intent_from_main.getStringExtra("account_name").toString()
     }
 
     private fun initText(){
@@ -274,6 +276,11 @@ class Prediction : AppCompatActivity() {
 
         initImage()
         initText()
+        initSQLDatabase()
+        initDate()
+        initUser()
+        setupClickListeners()
+        setupRespeckCharts()
     }
     private fun set_respeck_input(x: Float, y: Float, z: Float, x1: Float, y1: Float, z1: Float){
         this.respeck_Input[0] = x
