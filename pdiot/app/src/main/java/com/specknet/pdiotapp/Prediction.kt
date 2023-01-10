@@ -164,6 +164,64 @@ class Prediction : AppCompatActivity() {
 
 
     fun start(){
+        respeckThread()
+        thingyThread()
+        modelThread()
+    }
+    private fun modelThread(){
+        modelLiveUpdateReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+
+                Log.i("thread", "I am running on thread = " + Thread.currentThread().name)
+                ModelProcessing(respeck_Input,thingy_Input)
+                time += 1
+            }
+        }
+        val handlerThreadModel = HandlerThread("bgModelThingyLive")
+        handlerThreadModel.start()
+        looperModel = handlerThreadModel.looper
+        val handlerModel = Handler(looperModel)
+        this.registerReceiver(modelLiveUpdateReceiver, filterTestRespeck, null, handlerModel)
+    }
+
+    private fun thingyThread(){
+        // set up the broadcast receiver
+        thingyLiveUpdateReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+
+                Log.i("thread", "I am running on thread = " + Thread.currentThread().name)
+
+                val action = intent.action
+
+                if (action == Constants.ACTION_THINGY_BROADCAST) {
+
+                    val liveData =
+                        intent.getSerializableExtra(Constants.THINGY_LIVE_DATA) as ThingyLiveData
+                    Log.d("Live", "onReceive: liveData = " + liveData)
+
+                    // get all relevant intent contents
+                    val x = liveData.accelX
+                    val y = liveData.accelY
+                    val z = liveData.accelZ
+                    val gx = liveData.gyro.x
+                    val gy = liveData.gyro.y
+                    val gz = liveData.gyro.z
+                    set_thingy_input(x, y, z, gx, gy, gz)
+                    time += 1
+                    updateGraph("thingy", x, y, z)
+
+                }
+            }
+        }
+        // register receiver on another thread
+        val handlerThreadThingy = HandlerThread("bgThreadThingyLive")
+        handlerThreadThingy.start()
+        looperThingy = handlerThreadThingy.looper
+        val handlerThingy = Handler(looperThingy)
+        this.registerReceiver(thingyLiveUpdateReceiver, filterTestThingy, null, handlerThingy)
+    }
+
+    private fun respeckThread(){
         // set up the broadcast receiver
         respeckLiveUpdateReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -199,59 +257,9 @@ class Prediction : AppCompatActivity() {
         looperRespeck = handlerThreadRespeck.looper
         val handlerRespeck = Handler(looperRespeck)
         this.registerReceiver(respeckLiveUpdateReceiver, filterTestRespeck, null, handlerRespeck)
-
-        // set up the broadcast receiver
-        thingyLiveUpdateReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-
-                Log.i("thread", "I am running on thread = " + Thread.currentThread().name)
-
-                val action = intent.action
-
-                if (action == Constants.ACTION_THINGY_BROADCAST) {
-
-                    val liveData =
-                        intent.getSerializableExtra(Constants.THINGY_LIVE_DATA) as ThingyLiveData
-                    Log.d("Live", "onReceive: liveData = " + liveData)
-
-                    // get all relevant intent contents
-                    val x = liveData.accelX
-                    val y = liveData.accelY
-                    val z = liveData.accelZ
-                    val gx = liveData.gyro.x
-                    val gy = liveData.gyro.y
-                    val gz = liveData.gyro.z
-                    set_thingy_input(x, y, z, gx, gy, gz)
-                    time += 1
-                    updateGraph("thingy", x, y, z)
-
-                }
-            }
-        }
-        // register receiver on another thread
-        val handlerThreadThingy = HandlerThread("bgThreadThingyLive")
-        handlerThreadThingy.start()
-        looperThingy = handlerThreadThingy.looper
-        val handlerThingy = Handler(looperThingy)
-        this.registerReceiver(thingyLiveUpdateReceiver, filterTestThingy, null, handlerThingy)
-
-        modelLiveUpdateReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-
-                Log.i("thread", "I am running on thread = " + Thread.currentThread().name)
-//                val action = intent.action
-                ModelInput(respeck_Input,thingy_Input)
-                time += 1
-            }
-        }
-        val handlerThreadModel = HandlerThread("bgModelThingyLive")
-        handlerThreadModel.start()
-        looperModel = handlerThreadThingy.looper
-        val handlerModel = Handler(looperModel)
-        this.registerReceiver(modelLiveUpdateReceiver, filterTestRespeck, null, handlerModel)
-
-
     }
+
+
     private fun init(){
         image1 = findViewById(R.id.image1)
         image2 = findViewById(R.id.image2)
@@ -433,7 +441,7 @@ class Prediction : AppCompatActivity() {
 
 
 
-    fun ModelInput(respeck_Input:FloatArray,thingy_Input:FloatArray){
+    fun ModelProcessing(respeck_Input:FloatArray,thingy_Input:FloatArray){
         if (counter <= 294) {
             this.respeckTfInput[counter] = respeck_Input[0]
             this.respeckTfInput[counter + 1] = respeck_Input[1]
@@ -472,22 +480,6 @@ class Prediction : AppCompatActivity() {
 
             for (i in activityList.indices){
                 val activity = activityList[i]
-                Log.d("############Activity#######",activity)
-                Log.d("############Respeck Probability#######",probabilityList[i].toString())
-                Log.d("############Thingy Probability 0#######",thingyProbability[0].toString())
-                Log.d("############Thingy Probability 1#######",thingyProbability[1].toString())
-//                if(activity == "Sitting"){
-//                    activityToProbability[activity] = thingyProbability[0]
-//                }
-//                else if (activity == "Standing"){
-//                    activityToProbability[activity] = thingyProbability[1]
-//                }
-//                else if (detailseMode.isChecked){
-//                    activityToProbability[activity] = probabilityList[i]
-//                }
-//                else{
-//                    activityToProbability[activity] = probabilityList[i]
-//                }
                 activityToProbability[activity] = probabilityList[i]
             }
             if(detailseMode.isChecked && thingyProbability[0]>0.5){
@@ -527,7 +519,7 @@ class Prediction : AppCompatActivity() {
                     2 -> {
                         setText(output2, stringPrediction)
                         setImage(image2,stringPrediction)
-                        setTextInt(probability2, probabilityPrediction)
+                        setTextInt(probabislity2, probabilityPrediction)
                     }
                     3 -> {
                         setText(output3, stringPrediction)
