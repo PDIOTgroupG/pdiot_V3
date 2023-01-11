@@ -84,9 +84,12 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         else if (userID.isEmpty()){
-            Toast.makeText(this, "Please input your email/studentID", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please input your email", Toast.LENGTH_SHORT).show()
             account.setError("User account cannot be empty")
             account.requestFocus()
+        }
+        else if (!userID.contains('@')){
+            Toast.makeText(this, "Please input a valid Email", Toast.LENGTH_SHORT).show()
         }
         else if (pwd.isEmpty()){
             Toast.makeText(this, "Please input your password", Toast.LENGTH_SHORT).show()

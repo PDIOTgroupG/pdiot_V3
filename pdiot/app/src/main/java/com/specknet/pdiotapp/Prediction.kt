@@ -519,7 +519,7 @@ class Prediction : AppCompatActivity() {
                     2 -> {
                         setText(output2, stringPrediction)
                         setImage(image2,stringPrediction)
-                        setTextInt(probabislity2, probabilityPrediction)
+                        setTextInt(probability2, probabilityPrediction)
                     }
                     3 -> {
                         setText(output3, stringPrediction)
