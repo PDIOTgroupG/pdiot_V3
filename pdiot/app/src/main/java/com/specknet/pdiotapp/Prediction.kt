@@ -552,6 +552,7 @@ class Prediction : AppCompatActivity() {
         hd.setActivity(Activity)
         mySQLite.insertHistory(hd)
     }
+
     private fun get_respeck_model_outputs(details:Boolean,respeckTfInput:FloatArray): FloatArray {
         if(details){
             val pdiotModel = Cnn14.newInstance(this)
